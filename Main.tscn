@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://35giwndd6jyg"]
+
+[ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_h7q6n"]
+[ext_resource type="PackedScene" uid="uid://nqiyqnx42m61" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_fullglove_physics_hand.tscn" id="1_jdw8j"]
+[ext_resource type="PackedScene" uid="uid://cigx2gnf4tg4d" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_fullglove_physics_hand.tscn" id="2_2tsdc"]
+[ext_resource type="PackedScene" uid="uid://ctltchlf2j2r4" path="res://addons/xr-simulator/XRSimulator.tscn" id="2_j1dfe"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_68qac"]
+
+[sub_resource type="Sky" id="Sky_sokij"]
+sky_material = SubResource("ProceduralSkyMaterial_68qac")
+
+[sub_resource type="Environment" id="Environment_37w8k"]
+background_mode = 2
+sky = SubResource("Sky_sokij")
+
+[node name="Main" type="Node3D"]
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="StartXR" parent="XROrigin3D" instance=ExtResource("1_h7q6n")]
+
+[node name="XRSimulator" parent="XROrigin3D" instance=ExtResource("2_j1dfe")]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.838471, 0)
+
+[node name="XRController3DLeft" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.672497, 1.00323, -1.35319)
+tracker = &"left_hand"
+
+[node name="LeftPhysicsHand" parent="XROrigin3D/XRController3DLeft" instance=ExtResource("1_jdw8j")]
+
+[node name="XRController3DRight" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.636531, 0.918044, -1.22294)
+tracker = &"right_hand"
+
+[node name="RightPhysicsHand" parent="XROrigin3D/XRController3DRight" instance=ExtResource("2_2tsdc")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="XROrigin3D"]
+environment = SubResource("Environment_37w8k")
