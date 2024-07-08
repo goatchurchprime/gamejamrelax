@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://35giwndd6jyg"]
+[gd_scene load_steps=14 format=3 uid="uid://35giwndd6jyg"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_h7q6n"]
 [ext_resource type="PackedScene" uid="uid://nqiyqnx42m61" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_fullglove_physics_hand.tscn" id="1_jdw8j"]
 [ext_resource type="Script" path="res://main.gd" id="1_kui4x"]
 [ext_resource type="PackedScene" uid="uid://cigx2gnf4tg4d" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_fullglove_physics_hand.tscn" id="2_2tsdc"]
 [ext_resource type="PackedScene" uid="uid://ctltchlf2j2r4" path="res://addons/xr-simulator/XRSimulator.tscn" id="2_j1dfe"]
+[ext_resource type="Script" path="res://audio_stream_microphone.gd" id="6_fvnxd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_68qac"]
 
@@ -14,6 +15,35 @@ sky_material = SubResource("ProceduralSkyMaterial_68qac")
 [sub_resource type="Environment" id="Environment_37w8k"]
 background_mode = 2
 sky = SubResource("Sky_sokij")
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_dj88s"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_lt8sp"]
+size = Vector2(3, 1)
+
+[sub_resource type="Shader" id="Shader_yiqj2"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
+
+
+uniform float blue = 1.0; // you can assign a default value to uniforms
+uniform sampler2D voice : repeat_enable;
+
+void vertex() {
+}
+
+void fragment() {
+  ALBEDO = vec3(UV, 0.5);
+  vec4 v = texture(voice, UV);
+  float d = UV.y*2.0 - v.r*0.5 - 1.0;
+  EMISSION = (abs(d) < 0.1 ? vec3(0.8,0.8,0.9) : vec3(0.1,0.1,0.1));
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xly2v"]
+render_priority = 0
+shader = SubResource("Shader_yiqj2")
+shader_parameter/blue = 1.0
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_kui4x")
@@ -50,3 +80,14 @@ text = "Stillness Score"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.275797, -0.00146437)
 text = "0.0
 "
+
+[node name="AudioStreamMicrophone" type="AudioStreamPlayer" parent="XROrigin3D"]
+stream = SubResource("AudioStreamMicrophone_dj88s")
+autoplay = true
+bus = &"MicrophoneBus"
+script = ExtResource("6_fvnxd")
+
+[node name="VoiceGraph" type="MeshInstance3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.860494, -2.07716)
+mesh = SubResource("QuadMesh_lt8sp")
+surface_material_override/0 = SubResource("ShaderMaterial_xly2v")
