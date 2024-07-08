@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://35giwndd6jyg"]
+[gd_scene load_steps=9 format=3 uid="uid://35giwndd6jyg"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_h7q6n"]
 [ext_resource type="PackedScene" uid="uid://nqiyqnx42m61" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_fullglove_physics_hand.tscn" id="1_jdw8j"]
+[ext_resource type="Script" path="res://main.gd" id="1_kui4x"]
 [ext_resource type="PackedScene" uid="uid://cigx2gnf4tg4d" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_fullglove_physics_hand.tscn" id="2_2tsdc"]
 [ext_resource type="PackedScene" uid="uid://ctltchlf2j2r4" path="res://addons/xr-simulator/XRSimulator.tscn" id="2_j1dfe"]
 
@@ -15,6 +16,7 @@ background_mode = 2
 sky = SubResource("Sky_sokij")
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_kui4x")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
@@ -39,3 +41,12 @@ tracker = &"right_hand"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="XROrigin3D"]
 environment = SubResource("Environment_37w8k")
+
+[node name="StillnessLabel3D" type="Label3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.909969, -1.55368)
+text = "Stillness Score"
+
+[node name="StillnessScore" type="Label3D" parent="XROrigin3D/StillnessLabel3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.275797, -0.00146437)
+text = "0.0
+"
