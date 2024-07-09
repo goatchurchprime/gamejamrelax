@@ -16,4 +16,4 @@ func _process(delta):
 	if audiosamples != null:
 		var audiosampleframetextureimage = Image.create_from_data(len(audiosamples), 1, false, Image.FORMAT_RGF, audiosamples.to_byte_array())
 		var audiosampleframetexture = ImageTexture.create_from_image(audiosampleframetextureimage)
-		get_node("../VoiceGraph").get_surface_override_material(0).set_shader_parameter("voice", audiosampleframetexture)
+		get_parent().get_surface_override_material(0).set_shader_parameter("voice", audiosampleframetexture)

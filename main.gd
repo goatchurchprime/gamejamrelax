@@ -6,8 +6,12 @@ const eyenosevector = Vector3(0, -0.2, -0.2)
 
 func _ready():
 	$Monkey/AnimationPlayer.play("KeyAction")
+	$MonkeyReflection/AnimationPlayer.play("KeyAction")
 
 func _process(delta):
+	if not $VoiceGraph/AudioStreamMicrophone.playing:
+		$VoiceGraph/AudioStreamMicrophone.playing = true
+	
 	var headtransform = $XROrigin3D/XRCamera3D.global_transform
 	var vecoriginchange = prevheadtransform.origin - headtransform.origin
 	var vecnosechange = prevheadtransform*eyenosevector - headtransform*eyenosevector
@@ -19,4 +23,4 @@ func _process(delta):
 		stillnessscore += delta
 	else:
 		stillnessscore = stillnessscore*0.9
-	$XROrigin3D/StillnessLabel3D/StillnessScore.text = "%.1f" % stillnessscore
+	$StillnessLabel3D/StillnessScore.text = "%.1f" % stillnessscore
