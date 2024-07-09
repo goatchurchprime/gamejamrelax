@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://35giwndd6jyg"]
+[gd_scene load_steps=23 format=3 uid="uid://35giwndd6jyg"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_h7q6n"]
 [ext_resource type="PackedScene" uid="uid://nqiyqnx42m61" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_fullglove_physics_hand.tscn" id="1_jdw8j"]
@@ -6,6 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://cigx2gnf4tg4d" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_fullglove_physics_hand.tscn" id="2_2tsdc"]
 [ext_resource type="PackedScene" uid="uid://ctltchlf2j2r4" path="res://addons/xr-simulator/XRSimulator.tscn" id="2_j1dfe"]
 [ext_resource type="Script" path="res://audio_stream_microphone.gd" id="6_fvnxd"]
+[ext_resource type="Script" path="res://micromotioner.gd" id="7_jkvdv"]
+[ext_resource type="Script" path="res://nosesequence.gd" id="8_4i5py"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q40q2"]
+albedo_color = Color(0.323179, 0.322995, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_2gmlt"]
+material = SubResource("StandardMaterial3D_q40q2")
+size = Vector3(0.03, 0.03, 0.05)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_68qac"]
 
@@ -36,7 +45,9 @@ void fragment() {
   ALBEDO = vec3(UV, 0.5);
   vec4 v = texture(voice, UV);
   float d = UV.y*2.0 - v.r*0.5 - 1.0;
-  EMISSION = (abs(d) < 0.1 ? vec3(0.8,0.8,0.9) : vec3(0.1,0.1,0.1));
+  //EMISSION = (abs(d) < 0.1 ? vec3(0.8,0.8,0.9) : vec3(0.1,0.1,0.1));
+  if (abs(UV.y - 0.5) < abs(v.r)*0.5)
+	EMISSION = vec3(max(v.r, 0.0), 0.0, max(-v.r, 0.0));
 }
 "
 
@@ -44,6 +55,23 @@ void fragment() {
 render_priority = 0
 shader = SubResource("Shader_yiqj2")
 shader_parameter/blue = 1.0
+
+[sub_resource type="PrismMesh" id="PrismMesh_26i3t"]
+size = Vector3(0.1, 0.1, 0.2)
+
+[sub_resource type="PrismMesh" id="PrismMesh_x0iaa"]
+size = Vector3(0.1, 0.1, 0.2)
+
+[sub_resource type="SphereMesh" id="SphereMesh_d55dr"]
+radius = 0.02
+height = 0.04
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_owage"]
+albedo_color = Color(0.0745098, 1, 0.00392157, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2e45k"]
+material = SubResource("StandardMaterial3D_owage")
+size = Vector3(0.01, 0.01, 0.01)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_kui4x")
@@ -56,6 +84,14 @@ script = ExtResource("1_kui4x")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.838471, 0)
+
+[node name="Nose" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0603088, -0.08)
+mesh = SubResource("PrismMesh_2gmlt")
+
+[node name="NosePointer" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+mesh = SubResource("PrismMesh_2gmlt")
 
 [node name="XRController3DLeft" type="XRController3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.672497, 1.00323, -1.35319)
@@ -73,7 +109,7 @@ tracker = &"right_hand"
 environment = SubResource("Environment_37w8k")
 
 [node name="StillnessLabel3D" type="Label3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.909969, -1.55368)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.657699, -1.55368)
 text = "Stillness Score"
 
 [node name="StillnessScore" type="Label3D" parent="XROrigin3D/StillnessLabel3D"]
@@ -88,6 +124,46 @@ bus = &"MicrophoneBus"
 script = ExtResource("6_fvnxd")
 
 [node name="VoiceGraph" type="MeshInstance3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.860494, -2.07716)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.225628, -2.07716)
 mesh = SubResource("QuadMesh_lt8sp")
 surface_material_override/0 = SubResource("ShaderMaterial_xly2v")
+
+[node name="MicroMotioner" type="Node3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69744, -2.6809)
+script = ExtResource("7_jkvdv")
+
+[node name="CentreDisplacer" type="Node3D" parent="XROrigin3D/MicroMotioner"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="Headpos" type="MeshInstance3D" parent="XROrigin3D/MicroMotioner/CentreDisplacer"]
+mesh = SubResource("PrismMesh_26i3t")
+skeleton = NodePath("../../../..")
+
+[node name="Nose" type="MeshInstance3D" parent="XROrigin3D/MicroMotioner/CentreDisplacer/Headpos"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0603088, -0.08)
+mesh = SubResource("PrismMesh_2gmlt")
+
+[node name="Lefthandpos" type="MeshInstance3D" parent="XROrigin3D/MicroMotioner/CentreDisplacer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.213405, 0, 0)
+mesh = SubResource("PrismMesh_x0iaa")
+skeleton = NodePath("../..")
+
+[node name="Righthandpos" type="MeshInstance3D" parent="XROrigin3D/MicroMotioner/CentreDisplacer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.243672, 0, 0)
+mesh = SubResource("PrismMesh_x0iaa")
+skeleton = NodePath("../..")
+
+[node name="noseball" type="MeshInstance3D" parent="XROrigin3D/MicroMotioner/CentreDisplacer"]
+mesh = SubResource("SphereMesh_d55dr")
+
+[node name="NoseTrack" type="Node3D" parent="XROrigin3D/MicroMotioner"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="Spot0" type="MeshInstance3D" parent="XROrigin3D/MicroMotioner/NoseTrack"]
+mesh = SubResource("BoxMesh_2e45k")
+
+[node name="NoseSequence" type="Node3D" parent="."]
+script = ExtResource("8_4i5py")
+
+[node name="Spot0" type="MeshInstance3D" parent="NoseSequence"]
+mesh = SubResource("BoxMesh_2e45k")
