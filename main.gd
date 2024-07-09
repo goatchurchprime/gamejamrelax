@@ -28,4 +28,7 @@ func _process(delta):
 	var nosepoint = $XROrigin3D/XRCamera3D/NosePointer.global_transform.origin
 	var mat = $Monkey/Monkey_Breathe.get_surface_override_material(0)
 	mat.set_shader_parameter("noselight", nosepoint)
+	var matrefl = $MonkeyReflection/Monkey_Breathe.get_surface_override_material(0)
+	nosepoint.y = -$XROrigin3D.transform.origin.y - nosepoint.y
+	matrefl.set_shader_parameter("noselight", nosepoint)
 	#mat.set_shader_parameter("noselight", Vector3(0,0.7,0.3))

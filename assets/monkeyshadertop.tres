@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b7jevbvo6ebp2"]
+
+[ext_resource type="Shader" uid="uid://utw7kwox8g5x" path="res://assets/monkeysurfacetop.tres" id="1_kpjue"]
+
+[resource]
+resource_name = "Material.001"
+render_priority = 0
+shader = ExtResource("1_kpjue")
+shader_parameter/lightdir = Vector3(0.7, -0.7, -0.1)
+shader_parameter/noselight = Vector3(0, 0.4, 0.3)

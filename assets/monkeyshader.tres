@@ -18,7 +18,7 @@ vec4 grad(vec4 p) {
 }
 
 float noise(vec4 coord) {
-    // Domain rotation to improve the look of XYZ slices + animation patterns.
+    // D-0.3omain rotation to improve the look of XYZ slices + animation patterns.
     coord = vec4(
             coord.xyz + dot(coord, vec4(vec3(-0.1666667), -0.5)),
             dot(coord, vec4(0.5)));
@@ -80,7 +80,7 @@ vec3 curl_3d(vec4 p, float c) {
 uniform float turbulence_noise_strength = 1.0;
 uniform float turbulence_noise_scale = 9.0;
 uniform float turbulence_noise_speed_random = 0.2;
-uniform float turbulence_noise_speed_magnitude = 0.1; 
+uniform float turbulence_noise_speed_magnitude = 0.1;
 vec3 get_noise_direction(vec3 pos) {
 	float adj_contrast = max((turbulence_noise_strength - 1.0), 0.0) * 70.0;
 	vec4 noise_time = TIME * vec4(0.0, 0.0, 0.0, turbulence_noise_speed_random);
@@ -93,7 +93,7 @@ vec3 get_noise_direction(vec3 pos) {
 uniform vec3 lightdir = vec3(0.7, -0.7, -0.1);
 uniform vec3 noselight = vec3(0.3, 0.5, -1.0);
 void vertex() {
-	VERTEX += get_noise_direction(VERTEX)*turbulence_noise_speed_magnitude; 
+	VERTEX += get_noise_direction(VERTEX)*turbulence_noise_speed_magnitude;
 	float coldim = min(1.0, 0.5+0.2*inversesqrt(abs(dot(NORMAL, lightdir))));
 	vec3 vlight = (MODEL_MATRIX*vec4(VERTEX, 1.0)).xyz - noselight;
 	vlight.z *= 0.2;
