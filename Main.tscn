@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://35giwndd6jyg"]
+[gd_scene load_steps=30 format=3 uid="uid://35giwndd6jyg"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_h7q6n"]
 [ext_resource type="PackedScene" uid="uid://nqiyqnx42m61" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_fullglove_physics_hand.tscn" id="1_jdw8j"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://audio_stream_microphone.gd" id="6_fvnxd"]
 [ext_resource type="Script" path="res://micromotioner.gd" id="7_jkvdv"]
 [ext_resource type="Script" path="res://nosesequence.gd" id="8_4i5py"]
+[ext_resource type="Script" path="res://handcentre.gd" id="9_h6jwr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q40q2"]
 albedo_color = Color(0.323179, 0.322995, 0, 1)
@@ -72,6 +73,36 @@ albedo_color = Color(0.0745098, 1, 0.00392157, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_2e45k"]
 material = SubResource("StandardMaterial3D_owage")
 size = Vector3(0.01, 0.01, 0.01)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1yfks"]
+top_radius = 0.002
+bottom_radius = 0.02
+height = 0.1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ld7ix"]
+direction = Vector3(0, 1, 0)
+spread = 18.931
+initial_velocity_min = 0.3
+initial_velocity_max = 1.0
+gravity = Vector3(0, -0.4, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ha1q7"]
+emission_enabled = true
+emission = Color(0, 0.847059, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2ps3d"]
+material = SubResource("StandardMaterial3D_ha1q7")
+size = Vector3(0.01, 0.01, 0.01)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3cfwo"]
+emission_enabled = true
+emission = Color(0.956863, 0.984314, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4q2lq"]
+material = SubResource("StandardMaterial3D_3cfwo")
+top_radius = 0.001
+bottom_radius = 0.001
+height = 0.02
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_kui4x")
@@ -167,3 +198,20 @@ script = ExtResource("8_4i5py")
 
 [node name="Spot0" type="MeshInstance3D" parent="NoseSequence"]
 mesh = SubResource("BoxMesh_2e45k")
+
+[node name="HandCentre" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14032, -0.940345)
+script = ExtResource("9_h6jwr")
+
+[node name="HandPlant" type="MeshInstance3D" parent="HandCentre"]
+mesh = SubResource("CylinderMesh_1yfks")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="HandCentre"]
+amount = 90
+lifetime = 5.57
+process_material = SubResource("ParticleProcessMaterial_ld7ix")
+draw_pass_1 = SubResource("BoxMesh_2ps3d")
+
+[node name="HandMidDebug" type="MeshInstance3D" parent="HandCentre"]
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_4q2lq")

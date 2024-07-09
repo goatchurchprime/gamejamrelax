@@ -10,6 +10,10 @@ func _ready():
 		nosespoti.name = "Spot%d" % i
 		add_child(nosespoti)
 		
+
+var ppcount = 0
 func _physics_process(delta):
-	get_child(nosespotI).transform = headcontroller.get_node("NosePointer").global_transform
-	nosespotI = (nosespotI + 1) % get_child_count()
+	ppcount += 1
+	if (ppcount % 2) == 1:
+		get_child(nosespotI).transform = headcontroller.get_node("NosePointer").global_transform
+		nosespotI = (nosespotI + 1) % get_child_count()
