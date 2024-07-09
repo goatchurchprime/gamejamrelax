@@ -24,3 +24,8 @@ func _process(delta):
 	else:
 		stillnessscore = stillnessscore*0.9
 	$StillnessLabel3D/StillnessScore.text = "%.1f" % stillnessscore
+
+	var nosepoint = $XROrigin3D/XRCamera3D/NosePointer.global_transform.origin
+	var mat = $Monkey/Monkey_Breathe.get_surface_override_material(0)
+	mat.set_shader_parameter("noselight", nosepoint)
+	#mat.set_shader_parameter("noselight", Vector3(0,0.7,0.3))

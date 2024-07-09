@@ -1,10 +1,8 @@
 [gd_resource type="Shader" format=3 uid="uid://btep2ac0htv3t"]
 
 [resource]
-code = "// NOTE: Shader automatically converted from Godot Engine 4.3.beta's StandardMaterial3D.
-
-shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
+code = "shader_type spatial;
+render_mode unshaded, blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
 
 // This turbulence code found in the particle material in godot
 // https://github.com/godotengine/godot/blob/master/scene/resources/particle_process_material.cpp#L384
@@ -92,8 +90,16 @@ vec3 get_noise_direction(vec3 pos) {
 	return noise_direction;
 }
 
+uniform vec3 lightdir = vec3(0.7, -0.7, -0.1);
+uniform vec3 noselight = vec3(0.3, 0.5, -1.0);
 void vertex() {
 	VERTEX += get_noise_direction(VERTEX)*turbulence_noise_speed_magnitude; 
+	float coldim = min(1.0, 0.5+0.2*inversesqrt(abs(dot(NORMAL, lightdir))));
+	vec3 vlight = (MODEL_MATRIX*vec4(VERTEX, 1.0)).xyz - noselight;
+	vlight.z *= 0.2;
+	float vlightsquared = 7.0*dot(vlight, vlight);
+	float lightdim = max(0.2, 1.0 - vlightsquared);
+	COLOR.xyz *= coldim*lightdim;
 }
 
 void fragment() {

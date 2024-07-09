@@ -17,3 +17,4 @@ func _physics_process(delta):
 	if (ppcount % 2) == 1:
 		get_child(nosespotI).transform = headcontroller.get_node("NosePointer").global_transform
 		nosespotI = (nosespotI + 1) % get_child_count()
+	
