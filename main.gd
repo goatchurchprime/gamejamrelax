@@ -4,6 +4,9 @@ var stillnessscore = 0.0
 var prevheadtransform : Transform3D = Transform3D()
 const eyenosevector = Vector3(0, -0.2, -0.2)
 
+func _ready():
+	$Monkey/AnimationPlayer.play("KeyAction")
+
 func _process(delta):
 	var headtransform = $XROrigin3D/XRCamera3D.global_transform
 	var vecoriginchange = prevheadtransform.origin - headtransform.origin
