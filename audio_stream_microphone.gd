@@ -9,6 +9,9 @@ func _ready():
 	audioeffectcapture = AudioServer.get_bus_effect(microphoneidx, 0)
 
 func _process(delta):
+	if not playing:
+		playing = true
+	
 	var audiosamples = null
 	while audioeffectcapture.get_frames_available() > audiosamplesize:
 		audiosamples = audioeffectcapture.get_buffer(audiosamplesize)
