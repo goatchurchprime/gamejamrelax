@@ -7,7 +7,12 @@ extends Node3D
 func set_fade(p_value : float, col : Color=Color.BLACK):
 	XRToolsFade.set_fade("staging", Color(col, p_value))
 
+var Dskiptomonkey = true
 func _ready():
+	if Dskiptomonkey:
+		$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
+		$PondScene/MonkeyBottom/AnimationPlayer.play("Breathe")
+		return
 
 	# This is the plotline between the scenes
 	await $LoadingScreen.continue_pressed
@@ -36,8 +41,8 @@ func _ready():
 	$IntroScene/MonkeyOrb.enabled = true
 	$IntroScene/TrafficSound.stop()
 	$PondScene.visible = true
-	$PondScene/Monkey/AnimationPlayer.play("KeyAction")
-	$PondScene/MonkeyReflection/AnimationPlayer.play("KeyAction")
+	$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
+	$PondScene/MonkeyBottom/AnimationPlayer.play("Breathe")
 	var tweenfadeinpondscene = get_tree().create_tween()
 	tweenfadeinpondscene.tween_method(set_fade, 1.0, 0.0, 1.0)
 	$PondScene/AmbientSound.play()
@@ -55,9 +60,9 @@ func _ready():
 func _process(delta):
 	var xrorigin = get_node("../XROrigin3D")
 	var nosepoint = xrorigin.get_node("XRCamera3D/NosePointer").global_transform.origin
-	var mat = $PondScene/Monkey/Monkey_Breathe.get_surface_override_material(0)
+	var mat = $PondScene.monkeytopmaterial
 	mat.set_shader_parameter("noselight", nosepoint)
-	var matrefl = $PondScene/MonkeyReflection/Monkey_Breathe.get_surface_override_material(0)
+	var matrefl = $PondScene.monkeyreflectmaterial
 	nosepoint.y = -xrorigin.transform.origin.y - nosepoint.y
 	matrefl.set_shader_parameter("noselight", nosepoint)
 	#mat.set_shader_parameter("noselight", Vector3(0,0.7,0.3))
