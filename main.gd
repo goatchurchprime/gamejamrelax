@@ -40,6 +40,7 @@ func _ready():
 	$PondScene/MonkeyReflection/AnimationPlayer.play("KeyAction")
 	var tweenfadeinpondscene = get_tree().create_tween()
 	tweenfadeinpondscene.tween_method(set_fade, 1.0, 0.0, 1.0)
+	$PondScene/AmbientSound.play()
 	await tweenfadeinpondscene.finished
 	print("Now in pond scene")
 
