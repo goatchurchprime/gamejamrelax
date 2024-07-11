@@ -151,7 +151,9 @@ radius = 0.15
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dlq50"]
 transparency = 1
-albedo_color = Color(0.0862745, 1, 1, 0.376471)
+albedo_color = Color(0.0862745, 1, 1, 0.227451)
+metallic = 0.99
+roughness = 0.23
 rim = 0.01
 
 [sub_resource type="SphereMesh" id="SphereMesh_el520"]

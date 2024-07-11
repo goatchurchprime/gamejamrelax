@@ -39,7 +39,8 @@ func _ready():
 	xrorigin.rotate_y(-angrot)
 	const distanceorbbeloweye = 0.35
 	const distanceorbinfrontofeye = 0.4
-	var headoutvec = distanceorbinfrontofeye*Vector2(-headcontroller.global_transform.basis.z.x, -headcontroller.global_transform.basis.z.z).normalized()
+	var headcontrollerhorizontalvec = Vector2(-headcontroller.global_transform.basis.z.x, -headcontroller.global_transform.basis.z.z).normalized()
+	var headoutvec = distanceorbinfrontofeye*headcontrollerhorizontalvec
 	var orbtarget = headcontroller.global_position + Vector3(headoutvec.x, -distanceorbbeloweye, headoutvec.y)
 	xrorigin.position += $IntroScene/MonkeyOrb.global_position - orbtarget
 
@@ -97,9 +98,9 @@ func _ready():
 	# Set the eye height with the monkey's eyes level with your eyes
 	# this also needs to move us into facing the monkey head on if we are 
 	# in a different part of the play area away from the origin
-	const distancemonkeyeyeaboveeye = 0.22
+	const distancemonkeyeyeaboveeye = 0.02
 	const distancemonkeyinfrontofeye = 1.8
-	var headoutvecM = distancemonkeyinfrontofeye*Vector2(-headcontroller.global_transform.basis.z.x, -headcontroller.global_transform.basis.z.z).normalized()
+	var headoutvecM = distancemonkeyinfrontofeye*headcontrollerhorizontalvec
 	var monkeytarget = headcontroller.global_position + Vector3(headoutvecM.x, distancemonkeyeyeaboveeye, headoutvecM.y)
 	xrorigin.position += monkeyeyeheightspot.global_position - monkeytarget
 
@@ -113,12 +114,12 @@ func _ready():
 
 	# This bit represents the whole of the mediation sequence (not yet done)
 	$PondScene/MonkeyTop/AnimationPlayer.get_animation("Breathe").loop_mode = Animation.LOOP_NONE
-	for i in range(10):
+	while $PondScene/BreathMatchAccum.scale.x < 4.5:
 		breathtrackingscore = 0.0
 		$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
 		$PondScene/MonkeyBottom/AnimationPlayer.play("Breathe")
 		var BBB = await $PondScene/MonkeyTop/AnimationPlayer.animation_finished
-		print(i, " anim finished ", BBB, "  ", breathtrackingscore)
+		print($PondScene/BreathMatchAccum.scale.x, " anim finished ", BBB, "  ", breathtrackingscore)
 		if breathtrackingscore > 5.0:
 			$PondScene/BreathMatchAccum.scale.x += 1
 
@@ -141,16 +142,16 @@ var breathtrackingscore = 0.0
 func _process(delta):
 	var eyerayclos = Geometry3D.get_closest_point_to_segment_uncapped(monkeyeyeheightspot.global_position, headcontroller.global_position, headcontroller.global_position + headcontroller.global_transform.basis.z)
 	var eyerayclosvec = monkeyeyeheightspot.global_position - eyerayclos
-	eyerayclosvec.y *= 2  # more precision on vertical
+	eyerayclosvec.y *= 2.3  # more precision on vertical
 	var eyeraydist = eyerayclosvec.length()
-	if eyeraydist < 0.02:
+	if eyeraydist < 0.023:
 		breathtrackingscore += delta
 	$PondScene/BreathMatch.scale.x = breathtrackingscore
 	
 	var nosepoint = xrorigin.get_node("XRCamera3D/NosePointer").global_transform.origin
 	var mat = $PondScene.monkeytopmaterial
 	mat.set_shader_parameter("noselight", monkeyeyeheightspot.global_position)
-	mat.set_shader_parameter("lightsquaredfac", eyeraydist*12)
+	mat.set_shader_parameter("lightsquaredfac", eyeraydist*14)
 	var matrefl = $PondScene.monkeyreflectmaterial
 	nosepoint.y = -xrorigin.transform.origin.y - nosepoint.y
 	
