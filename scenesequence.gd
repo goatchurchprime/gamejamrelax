@@ -12,7 +12,10 @@ func set_fade_blend(p_value : float, col1 : Color, col2 : Color):
 	XRToolsFade.set_fade(fadetag, col1.blend(Color(col2, p_value)))
 func set_master_volume_down(p_value : float):
 	AudioServer.set_bus_volume_db(0, p_value)
-	
+func set_monkey_eyelids(p_value : float):
+	$PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/Head_2.set_blend_shape_value(0, p_value)
+
+
 @onready var monkeyeyeheightspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot
 @onready var monkeyeyeprojectedspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot/EyeprojectedSpot
 
@@ -28,10 +31,14 @@ func _ready():
 	# "Please be seated comfortably"
 	xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
 	
+	var tween1 = get_tree().create_tween()
+	tween1.tween_method(set_monkey_eyelids, 1.0, 0.0, 2.0).set_trans(Tween.TRANS_SINE)
+
 	if Dautoadvanceloadscreen:
 		await get_tree().create_timer(2.3).timeout
 	else:
 		await $LoadingScreen.continue_pressed
+	
 	
 	# Fade out the loading screen
 	var tweenfadeloadscreen = get_tree().create_tween()
@@ -128,9 +135,16 @@ func _ready():
 		if breathtrackingscore > 5.0:
 			$PondScene/BreathMatchAccum.scale.x += 1
 
-	# This is the final fade out and closing of the game
+	# Monkey moves half speed and slowly opens eyes 
+	var tweenmonkeyeyesopen = get_tree().create_tween()
+	tweenmonkeyeyesopen.tween_method(set_monkey_eyelids, 0.0, 1.0, 4.0).set_trans(Tween.TRANS_SINE)
+	$PondScene/MonkeyTop/AnimationPlayer.speed_scale = 0.5
+	$PondScene/MonkeyBottom/AnimationPlayer.speed_scale = 0.5
 	$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
 	$PondScene/MonkeyBottom/AnimationPlayer.play("Breathe")
+	await get_tree().create_timer(4.5).timeout
+
+	# Final fade out and exit of game
 	var tweenmastervolume = get_tree().create_tween()
 	tweenmastervolume.tween_method(set_master_volume_down, 0.0, -50, 4.0)
 	var tweenfinalfadegray = get_tree().create_tween()

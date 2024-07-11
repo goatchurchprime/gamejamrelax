@@ -343,24 +343,25 @@ omni_attenuation = 2.461
 [node name="Apartment" parent="SceneSequence/IntroScene" instance=ExtResource("22_m1vp1")]
 
 [node name="PondScene" type="Node3D" parent="SceneSequence"]
+visible = false
 script = ExtResource("18_6nfk3")
 
 [node name="MonkeyTop" parent="SceneSequence/PondScene" instance=ExtResource("22_qh1ro")]
 transform = Transform3D(1.99726, 0, -0.104672, 0, 2, 0, 0.104672, 0, 1.99726, -0.1, -0.231, -1.312)
 
 [node name="Skeleton3D" parent="SceneSequence/PondScene/MonkeyTop/Armature" index="0"]
-bones/1/rotation = Quaternion(-0.809788, 0.0411105, 0.025177, 0.584739)
-bones/2/rotation = Quaternion(0.180892, -0.0110607, -0.0392691, 0.982657)
-bones/3/rotation = Quaternion(0.0462238, -0.00176695, 0.00217968, 0.998927)
-bones/5/rotation = Quaternion(-0.310412, 0.0850721, 0.87889, 0.352078)
-bones/6/rotation = Quaternion(0.758257, -0.287997, 0.295728, 0.504628)
-bones/7/rotation = Quaternion(-0.0726434, -0.0679308, 0.232242, 0.96756)
-bones/11/rotation = Quaternion(-0.29077, -0.073395, -0.864443, 0.40349)
-bones/12/rotation = Quaternion(0.777285, 0.21884, -0.172718, 0.564008)
-bones/13/rotation = Quaternion(-0.0726434, 0.067931, -0.232242, 0.96756)
+bones/1/rotation = Quaternion(-0.817372, 0.0414366, 0.0246368, 0.574089)
+bones/2/rotation = Quaternion(0.114513, -0.00711747, -0.0422886, 0.992496)
+bones/3/rotation = Quaternion(0.0539338, -0.00107878, -0.00454239, 0.998534)
+bones/5/rotation = Quaternion(0.00522841, 0.408004, 0.846834, 0.341141)
+bones/6/rotation = Quaternion(0.548694, -0.27618, 0.279092, 0.738083)
+bones/7/rotation = Quaternion(0.0474665, 0.466775, -0.267973, 0.841462)
+bones/11/rotation = Quaternion(0.00570798, -0.409796, -0.850021, 0.330907)
+bones/12/rotation = Quaternion(0.548694, 0.27618, -0.279092, 0.738083)
+bones/13/rotation = Quaternion(0.0474667, -0.466775, 0.267973, 0.841462)
 
 [node name="Head_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.999838, -0.017982, -0.000810697, 0.0174901, 0.981144, -0.192488, 0.00425675, 0.192441, 0.981299, 0.00844871, 0.0143132, -0.0663158)
+transform = Transform3D(1, -1.2813e-08, 2.79397e-08, 2.85654e-08, 0.998831, -0.04833, -2.07219e-08, 0.0483304, 0.998832, 7.45058e-09, 0.00208944, -0.024767)
 
 [node name="Head_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D/Head_2" index="0"]
 blend_shapes/Blink = 1.0
@@ -376,28 +377,28 @@ transform = Transform3D(0.04, 5.82077e-12, -1.86265e-11, -5.82077e-12, 0.04, 2.9
 mesh = SubResource("SphereMesh_4sx7o")
 
 [node name="R_Hand" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.205418, -0.268776, 0.941044, 0.48077, 0.865252, 0.142182, -0.852447, 0.423216, 0.306955, -0.0912232, 0.0739369, -0.332889)
+transform = Transform3D(0.0921864, -0.994158, 0.0561361, 0.309375, 0.0821829, 0.947391, -0.946462, -0.0699687, 0.315142, 0.389046, 0.252967, -0.0407439)
 
 [node name="R_LowerArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="2"]
-transform = Transform3D(0.326331, -0.616239, 0.716769, 0.401331, 0.776875, 0.485196, -0.855829, 0.129327, 0.500831, 0.127633, 0.0214594, -0.251465)
+transform = Transform3D(0.1065, -0.405331, 0.907946, 0.225586, 0.899185, 0.374959, -0.968385, 0.164886, 0.187199, -0.00108625, 0.00390041, -0.118439)
 
 [node name="R_UpperArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="3"]
-transform = Transform3D(0.561197, -0.507806, -0.653599, 0.684273, 0.728928, 0.0212034, 0.465657, -0.459135, 0.756544, 0.233785, 0.133575, 0.23999)
+transform = Transform3D(0.72672, -0.677453, 0.113737, 0.521014, 0.65149, 0.551472, -0.447691, -0.341504, 0.826407, 0.298424, 0.153894, 0.150261)
 
 [node name="L_Hand" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="4"]
-transform = Transform3D(0.480046, 0.176217, -0.859363, -0.323273, 0.946218, 0.0134446, 0.815507, 0.271354, 0.511191, 0.125721, 0.0734667, -0.365852)
+transform = Transform3D(0.0921868, 0.994159, -0.0561355, -0.309375, 0.0821826, 0.947391, 0.946462, -0.0699694, 0.315143, -0.310875, 0.279608, -0.122243)
 
 [node name="L_LowerArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="5"]
-transform = Transform3D(0.580294, 0.460993, -0.671375, -0.224111, 0.882942, 0.412556, 0.782964, -0.0889399, 0.615676, -0.0634109, -0.0141447, -0.227221)
+transform = Transform3D(0.106501, 0.40533, -0.907946, -0.225586, 0.899185, 0.374958, 0.968385, 0.164887, 0.1872, 0.0780252, 0.0233256, -0.201826)
 
 [node name="L_UpperArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="6"]
-transform = Transform3D(0.646, 0.417699, 0.638914, -0.578475, 0.814004, 0.0527245, -0.498053, -0.403652, 0.767469, -0.16482, 0.143478, 0.258268)
+transform = Transform3D(0.726721, 0.677452, -0.113737, -0.521013, 0.651491, 0.551471, 0.44769, -0.341504, 0.826408, -0.274892, 0.198758, 0.111711)
 
 [node name="Torso" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="7"]
-transform = Transform3D(0.99999, -0.00443848, 0.000107762, 0.00439864, 0.987105, -0.160016, 0.000603857, 0.160014, 0.987114, 0.0014623, 0.0109017, -0.0496728)
+transform = Transform3D(1, -1.63127e-08, 1.58325e-08, 3.17377e-08, 1, 8.3819e-07, -8.3819e-09, 3.20375e-07, 1, 0, 5.96046e-08, -1.86265e-08)
 
 [node name="Butt_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="8"]
-transform = Transform3D(1, 1.0943e-08, 1.76951e-08, 3.74857e-08, 0.999657, -0.0261758, -2.79397e-08, 0.0261765, 0.999657, 1.11759e-08, 0.00183506, -0.00592031)
+transform = Transform3D(1, -9.31323e-10, 3.25963e-09, 2.79397e-08, 1, 7.7486e-07, 4.65661e-10, 3.8743e-07, 1, 1.49012e-08, -4.47035e-08, 0)
 
 [node name="Base_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="9"]
 transform = Transform3D(1, 1.11413e-11, 1.13047e-11, 1.09139e-11, 1, 5.81145e-07, -9.71312e-12, 5.81145e-07, 1, 0, 1.49012e-08, -2.6077e-08)
