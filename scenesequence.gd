@@ -39,6 +39,11 @@ func _ready():
 	await tweenfadeloadscreen.finished
 	$LoadingScreen.visible = false
 
+	# Here we must make sure that the player is in reach of the orb
+	# with both hands central before we fade it in
+	# They should touch both hands into it before it gets activated
+	# (The orb will light up as their both hands get close)
+
 	# Fade in and run the intro scene
 	$IntroScene.visible = true
 	var tweenfadeinintro = get_tree().create_tween()
