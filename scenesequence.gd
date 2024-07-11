@@ -37,7 +37,7 @@ func _ready():
 	
 	
 	if Dautoadvanceloadscreen:
-		await get_tree().create_timer(1.1).timeout
+		await get_tree().create_timer(2.3).timeout
 	else:
 		await $LoadingScreen.continue_pressed
 	
@@ -51,7 +51,7 @@ func _ready():
 	var angrot = Vector2(headcontroller.global_transform.basis.z.x, headcontroller.global_transform.basis.z.z).angle_to(Vector2($IntroScene/MonkeyOrb.global_transform.basis.z.x, $IntroScene/MonkeyOrb.global_transform.basis.z.z))
 	xrorigin.rotate_y(-angrot)
 	var headoutvec = 0.4*Vector2(-headcontroller.global_transform.basis.z.x, -headcontroller.global_transform.basis.z.z).normalized()
-	var orbtarget = headcontroller.global_position + Vector3(headoutvec.x, -0.45, headoutvec.y)
+	var orbtarget = headcontroller.global_position + Vector3(headoutvec.x, -0.35, headoutvec.y)
 	xrorigin.position += $IntroScene/MonkeyOrb.global_position - orbtarget
 
 	# Fade in and run the intro scene
