@@ -30,7 +30,7 @@ func _ready():
 
 	#
 	# This is the master plotline between the scenes
-	#
+	#  (fix this)
 	await $LoadingScreen.continue_pressed
 	
 	# Fade out the loading screen
