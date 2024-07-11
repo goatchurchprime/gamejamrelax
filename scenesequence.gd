@@ -109,3 +109,6 @@ func _process(delta):
 	nosepoint.y = -xrorigin.transform.origin.y - nosepoint.y
 	matrefl.set_shader_parameter("noselight", nosepoint)
 	#mat.set_shader_parameter("noselight", Vector3(0,0.7,0.3))
+
+	var orbpos = $IntroScene/MonkeyOrb.global_position
+	xrorigin.sethandorbs(orbpos, orbpos, $IntroScene/MonkeyOrb/Sphere.mesh.radius, Color.YELLOW)

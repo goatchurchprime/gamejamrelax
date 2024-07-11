@@ -1,9 +1,10 @@
-[gd_scene load_steps=48 format=3 uid="uid://35giwndd6jyg"]
+[gd_scene load_steps=50 format=3 uid="uid://35giwndd6jyg"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_h7q6n"]
 [ext_resource type="PackedScene" uid="uid://nqiyqnx42m61" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_fullglove_physics_hand.tscn" id="1_jdw8j"]
 [ext_resource type="Script" path="res://main.gd" id="1_kui4x"]
 [ext_resource type="PackedScene" uid="uid://cigx2gnf4tg4d" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_fullglove_physics_hand.tscn" id="2_2tsdc"]
+[ext_resource type="Script" path="res://xrorigin3d.gd" id="2_40uyp"]
 [ext_resource type="PackedScene" uid="uid://ctltchlf2j2r4" path="res://addons/xr-simulator/XRSimulator.tscn" id="2_j1dfe"]
 [ext_resource type="PackedScene" uid="uid://wtpox7m5vu2b" path="res://addons/godot-xr-tools/effects/fade.tscn" id="4_qado1"]
 [ext_resource type="Shader" path="res://assets/hand.gdshader" id="6_0tc6y"]
@@ -34,9 +35,24 @@ size = Vector3(0.03, 0.03, 0.05)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f8r2u"]
 render_priority = 0
 shader = ExtResource("6_0tc6y")
-shader_parameter/albedo = Color(1, 1, 1, 0.4)
-shader_parameter/fade_offset = 0.0
-shader_parameter/fade_sharpness = 15.0
+shader_parameter/albedo = Color(0.529412, 1, 1, 0.4)
+shader_parameter/fade_offset = -0.022
+shader_parameter/fade_sharpness = 14.58
+shader_parameter/orbcentrerelativetohand = Vector3(0, 0, 0)
+shader_parameter/orbrad = 0.0
+shader_parameter/orbbrightcolour = Color(1, 0, 0, 0.9)
+shader_parameter/orbdropoff = 0.02
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k1loc"]
+render_priority = 0
+shader = ExtResource("6_0tc6y")
+shader_parameter/albedo = Color(0.529412, 1, 1, 0.4)
+shader_parameter/fade_offset = -0.022
+shader_parameter/fade_sharpness = 14.58
+shader_parameter/orbcentrerelativetohand = Vector3(0, 0, 0)
+shader_parameter/orbrad = 0.0
+shader_parameter/orbbrightcolour = Color(1, 0, 0, 0.9)
+shader_parameter/orbdropoff = 0.02
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_owage"]
 albedo_color = Color(0.0745098, 1, 0.00392157, 1)
@@ -145,6 +161,7 @@ height = 0.3
 script = ExtResource("1_kui4x")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
+script = ExtResource("2_40uyp")
 
 [node name="StartXR" parent="XROrigin3D" instance=ExtResource("1_h7q6n")]
 
@@ -174,14 +191,21 @@ hand_material_override = SubResource("ShaderMaterial_f8r2u")
 [node name="FunctionPickup" parent="XROrigin3D/XRController3DLeft" instance=ExtResource("7_6l8go")]
 
 [node name="AutoHandtracker" parent="XROrigin3D/XRController3DLeft" instance=ExtResource("8_3wn4n")]
+visiblehandtrackskeleton = false
+enableautotracker = false
 
 [node name="XRController3DRight" type="XRController3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.636531, 0.918044, -1.22294)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00597298, 0.854152, -0.884949)
 tracker = &"right_hand"
 
 [node name="RightPhysicsHand" parent="XROrigin3D/XRController3DRight" instance=ExtResource("2_2tsdc")]
+hand_material_override = SubResource("ShaderMaterial_k1loc")
 
 [node name="FunctionPickup" parent="XROrigin3D/XRController3DRight" instance=ExtResource("7_6l8go")]
+
+[node name="AutoHandtracker" parent="XROrigin3D/XRController3DRight" instance=ExtResource("8_3wn4n")]
+visiblehandtrackskeleton = false
+enableautotracker = false
 
 [node name="NoseSequence" type="Node3D" parent="."]
 script = ExtResource("8_4i5py")
@@ -235,11 +259,11 @@ skeleton = NodePath("../XROrigin3D/XRCamera3D")
 script = ExtResource("13_v0v6l")
 
 [node name="LoadingScreen" parent="SceneSequence" instance=ExtResource("15_2ueek")]
+visible = false
 splash_screen = ExtResource("16_ae51a")
 enable_press_to_continue = true
 
 [node name="IntroScene" type="Node3D" parent="SceneSequence"]
-visible = false
 script = ExtResource("14_i85se")
 
 [node name="VoiceGraph" type="MeshInstance3D" parent="SceneSequence/IntroScene"]
@@ -274,10 +298,10 @@ freeze = true
 [node name="CollisionShape3D" parent="SceneSequence/IntroScene/MonkeyOrb" index="0"]
 shape = SubResource("SphereShape3D_ajhpm")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SceneSequence/IntroScene/MonkeyOrb"]
+[node name="Sphere" type="MeshInstance3D" parent="SceneSequence/IntroScene/MonkeyOrb"]
 mesh = SubResource("SphereMesh_el520")
 
-[node name="Monkey_Rigged--Animated_01a" parent="SceneSequence/IntroScene/MonkeyOrb/MeshInstance3D" instance=ExtResource("22_qh1ro")]
+[node name="Monkey_Rigged--Animated_01a" parent="SceneSequence/IntroScene/MonkeyOrb/Sphere" instance=ExtResource("22_qh1ro")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.0251299, 0)
 
 [node name="TrafficSound" type="AudioStreamPlayer3D" parent="SceneSequence/IntroScene"]
