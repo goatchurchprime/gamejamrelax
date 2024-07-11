@@ -85,7 +85,6 @@ func _ready():
 			break
 
 	# The orb now rises to capture your attention and get you to lean back
-	xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
 	var tweenrisingorb = get_tree().create_tween()
 	tweenrisingorb.tween_property($IntroScene/MonkeyOrb, "position", $IntroScene/MonkeyOrb.position + Vector3(0,0.5,0), 6.0).set_trans(Tween.TRANS_SINE)
 	await get_tree().create_timer(2.0).timeout
@@ -96,6 +95,7 @@ func _ready():
 	var tweenfadeintroscene = get_tree().create_tween()
 	tweenfadeintroscene.tween_method(set_fade, 0.0, 1.0, 3.0)
 	await tweenfadeintroscene.finished
+	xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
 	tweenrisingorb.kill()
 	$IntroScene/TrafficSound.stop()
 	$IntroScene.visible = false
