@@ -14,9 +14,14 @@ func set_master_volume_down(p_value : float):
 	AudioServer.set_bus_volume_db(0, p_value)
 	
 @onready var monkeyeyeheightspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot
+@onready var monkeyeyeprojectedspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot/EyeprojectedSpot
 
 var Dskiptomonkey = false
 var Dautoadvanceloadscreen = true
+const distancemonkeyeyeaboveeye = 0.02
+const distancemonkeyinfrontofeye = 1.8
+var monkeyeyetargetradius = 0.04
+
 func _ready():
 	#
 	# This is the master plotline between the scenes
@@ -98,11 +103,11 @@ func _ready():
 	# Set the eye height with the monkey's eyes level with your eyes
 	# this also needs to move us into facing the monkey head on if we are 
 	# in a different part of the play area away from the origin
-	const distancemonkeyeyeaboveeye = 0.02
-	const distancemonkeyinfrontofeye = 1.8
 	var headoutvecM = distancemonkeyinfrontofeye*headcontrollerhorizontalvec
 	var monkeytarget = headcontroller.global_position + Vector3(headoutvecM.x, distancemonkeyeyeaboveeye, headoutvecM.y)
 	xrorigin.position += monkeyeyeheightspot.global_position - monkeytarget
+	monkeyeyeprojectedspot.position.z = distancemonkeyinfrontofeye*0.5
+	monkeyeyeprojectedspot.scale = Vector3(monkeyeyetargetradius,monkeyeyetargetradius,monkeyeyetargetradius)
 
 	# Now fade in the monkey scene
 	$PondScene.visible = true
@@ -140,11 +145,10 @@ func _ready():
 
 var breathtrackingscore = 0.0
 func _process(delta):
-	var eyerayclos = Geometry3D.get_closest_point_to_segment_uncapped(monkeyeyeheightspot.global_position, headcontroller.global_position, headcontroller.global_position + headcontroller.global_transform.basis.z)
-	var eyerayclosvec = monkeyeyeheightspot.global_position - eyerayclos
-	eyerayclosvec.y *= 2.3  # more precision on vertical
+	var eyerayclos = Geometry3D.get_closest_point_to_segment_uncapped(monkeyeyeprojectedspot.global_position, headcontroller.global_position, headcontroller.global_position + headcontroller.global_transform.basis.z)
+	var eyerayclosvec = monkeyeyeprojectedspot.global_position - eyerayclos
 	var eyeraydist = eyerayclosvec.length()
-	if eyeraydist < 0.023:
+	if eyeraydist < monkeyeyetargetradius:
 		breathtrackingscore += delta
 	$PondScene/BreathMatch.scale.x = breathtrackingscore
 	
