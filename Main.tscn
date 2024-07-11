@@ -259,11 +259,11 @@ skeleton = NodePath("../XROrigin3D/XRCamera3D")
 script = ExtResource("13_v0v6l")
 
 [node name="LoadingScreen" parent="SceneSequence" instance=ExtResource("15_2ueek")]
-visible = false
 splash_screen = ExtResource("16_ae51a")
 enable_press_to_continue = true
 
 [node name="IntroScene" type="Node3D" parent="SceneSequence"]
+visible = false
 script = ExtResource("14_i85se")
 
 [node name="VoiceGraph" type="MeshInstance3D" parent="SceneSequence/IntroScene"]

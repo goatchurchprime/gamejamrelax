@@ -1,5 +1,6 @@
 extends Node3D
 
+@onready var xrorigin = get_node("../XROrigin3D")
 @onready var headcontroller = XRHelpers.get_xr_camera(get_node("../XROrigin3D"))
 @onready var leftcontroller = XRHelpers.get_left_controller(get_node("../XROrigin3D"))
 @onready var rightcontroller = XRHelpers.get_right_controller(get_node("../XROrigin3D"))
@@ -14,6 +15,7 @@ func set_master_volume_down(p_value : float):
 	
 
 var Dskiptomonkey = false
+var Dautoadvanceloadscreen = true
 func _ready():
 	if Dskiptomonkey:
 		$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
@@ -30,8 +32,14 @@ func _ready():
 
 	#
 	# This is the master plotline between the scenes
-	#  (fix this)
-	await $LoadingScreen.continue_pressed
+	# "Please be seated comfortably"
+	xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
+	
+	
+	if Dautoadvanceloadscreen:
+		await get_tree().create_timer(1.1).timeout
+	else:
+		await $LoadingScreen.continue_pressed
 	
 	# Fade out the loading screen
 	var tweenfadeloadscreen = get_tree().create_tween()
@@ -39,10 +47,12 @@ func _ready():
 	await tweenfadeloadscreen.finished
 	$LoadingScreen.visible = false
 
-	# Here we must make sure that the player is in reach of the orb
-	# with both hands central before we fade it in
-	# They should touch both hands into it before it gets activated
-	# (The orb will light up as their both hands get close)
+	# locate the orb in front of you within arm's reach
+	var angrot = Vector2(headcontroller.global_transform.basis.z.x, headcontroller.global_transform.basis.z.z).angle_to(Vector2($IntroScene/MonkeyOrb.global_transform.basis.z.x, $IntroScene/MonkeyOrb.global_transform.basis.z.z))
+	xrorigin.rotate_y(-angrot)
+	var headoutvec = 0.4*Vector2(-headcontroller.global_transform.basis.z.x, -headcontroller.global_transform.basis.z.z).normalized()
+	var orbtarget = headcontroller.global_position + Vector3(headoutvec.x, -0.45, headoutvec.y)
+	xrorigin.position += $IntroScene/MonkeyOrb.global_position - orbtarget
 
 	# Fade in and run the intro scene
 	$IntroScene.visible = true
@@ -54,14 +64,39 @@ func _ready():
 	tweenfadeintrosound.tween_property($IntroScene/TrafficSound, "volume_db", 0.0, 3)
 	await tweenfadeinintro.finished
 	$IntroScene/MonkeyOrb.enabled = true
-	await $IntroScene/MonkeyOrb.picked_up
+	
+	# now we busy-await for the hands to touch the orb for long enough
+	var touchingscore = 0.0
+	while touchingscore < 1.0:
+		var orbpos = $IntroScene/MonkeyOrb.global_position
+		var orbrad = $IntroScene/MonkeyOrb/Sphere.mesh.radius
+		var orbdropoff = 0.04
+		xrorigin.sethandorbs(orbpos, orbpos, orbrad, lerp(Color.YELLOW, Color.ORANGE_RED, touchingscore))
+		var leftmiddleknucklepos = leftcontroller.get_node("LeftPhysicsHand/Hand_L/Armature/Skeleton3D/BoneMiddleProximal").global_position
+		var rightmiddleknucklepos = rightcontroller.get_node("RightPhysicsHand/Hand_R/Armature/Skeleton3D/BoneMiddleProximal").global_position
+		var dleftmiddleknucklepos = (leftmiddleknucklepos - orbpos).length() - orbrad
+		var drightmiddleknucklepos = (rightmiddleknucklepos - orbpos).length() - orbrad
+		if (dleftmiddleknucklepos < 0) or (drightmiddleknucklepos < 0):
+			touchingscore = touchingscore*0.8
+		elif (dleftmiddleknucklepos < orbdropoff) and (drightmiddleknucklepos < orbdropoff):
+			touchingscore = touchingscore + 0.04
+		await get_tree().create_timer(0.1).timeout
+		if Input.is_key_pressed(KEY_C):
+			break
 
-	# Now fade out the intro scene
+	# The orb now rises to capture your attention and get you to lean back
+	xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
+	var tweenrisingorb = get_tree().create_tween()
+	tweenrisingorb.tween_property($IntroScene/MonkeyOrb, "position", $IntroScene/MonkeyOrb.position + Vector3(0,0.5,0), 6.0).set_trans(Tween.TRANS_SINE)
+	await get_tree().create_timer(2.0).timeout
+			
+	# Now fade out the intro scene (while the orb is still rising)
 	var tweenfadeoutsound = get_tree().create_tween()
 	tweenfadeoutsound.tween_property($IntroScene/TrafficSound, "volume_db", -50.0, 2)
 	var tweenfadeintroscene = get_tree().create_tween()
 	tweenfadeintroscene.tween_method(set_fade, 0.0, 1.0, 3.0)
 	await tweenfadeintroscene.finished
+	tweenrisingorb.kill()
 	$IntroScene/TrafficSound.stop()
 	$IntroScene.visible = false
 	$IntroScene/MonkeyOrb.enabled = false
@@ -70,7 +105,7 @@ func _ready():
 	# Set the eye height with the monkey's eyes level with your eyes
 	# this also needs to move us into facing the monkey head on if we are 
 	# in a different part of the play area away from the origin
-	get_node("../XROrigin3D").position.y -= headcontroller.global_position.y - $PondScene/EyeheightSpot.global_position.y
+	xrorigin.position.y -= headcontroller.global_position.y - $PondScene/EyeheightSpot.global_position.y
 
 	# Now fade in the monkey scene
 	$PondScene.visible = true
@@ -101,7 +136,6 @@ func _ready():
 
 
 func _process(delta):
-	var xrorigin = get_node("../XROrigin3D")
 	var nosepoint = xrorigin.get_node("XRCamera3D/NosePointer").global_transform.origin
 	var mat = $PondScene.monkeytopmaterial
 	mat.set_shader_parameter("noselight", nosepoint)
@@ -109,6 +143,3 @@ func _process(delta):
 	nosepoint.y = -xrorigin.transform.origin.y - nosepoint.y
 	matrefl.set_shader_parameter("noselight", nosepoint)
 	#mat.set_shader_parameter("noselight", Vector3(0,0.7,0.3))
-
-	var orbpos = $IntroScene/MonkeyOrb.global_position
-	xrorigin.sethandorbs(orbpos, orbpos, $IntroScene/MonkeyOrb/Sphere.mesh.radius, Color.YELLOW)
