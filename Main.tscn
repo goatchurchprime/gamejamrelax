@@ -146,6 +146,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.838471, 0)
 
 [node name="Nose" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0603088, -0.08)
+visible = false
 mesh = SubResource("PrismMesh_2gmlt")
 
 [node name="NosePointer" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D"]
@@ -222,7 +223,6 @@ skeleton = NodePath("../XROrigin3D/XRCamera3D")
 script = ExtResource("13_v0v6l")
 
 [node name="LoadingScreen" parent="SceneSequence" instance=ExtResource("15_2ueek")]
-visible = false
 splash_screen = ExtResource("16_ae51a")
 enable_press_to_continue = true
 
@@ -276,7 +276,13 @@ stream = ExtResource("17_equb6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.359834, 1.27531, -1.04987)
 
 [node name="PondScene" type="Node3D" parent="SceneSequence"]
+visible = false
 script = ExtResource("18_6nfk3")
+
+[node name="EyeheightSpot" type="MeshInstance3D" parent="SceneSequence/PondScene"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.857674, -0.93488)
+mesh = SubResource("BoxMesh_2e45k")
+skeleton = NodePath("../../../NoseSequence")
 
 [node name="MonkeyTop" parent="SceneSequence/PondScene" instance=ExtResource("22_qh1ro")]
 transform = Transform3D(1.99726, 0, -0.104672, 0, 2, 0, 0.104672, 0, 1.99726, -0.1, -0.231, -1.312)
