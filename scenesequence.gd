@@ -15,11 +15,13 @@ func set_master_volume_down(p_value : float):
 func set_monkey_eyelids(p_value : float):
 	$PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/Head_2.set_blend_shape_value(0, p_value)
 
+func set_monkey_arms_out(p_value : float):
+	$PondScene/AnimationTree.set("parameters/ArmsOutBlend/blend_amount", p_value)
 
 @onready var monkeyeyeheightspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot
 @onready var monkeyeyeprojectedspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot/EyeprojectedSpot
 
-var Dskiptomonkey = false
+var Dskiptomonkey = true
 var Dautoadvanceloadscreen = true
 const distancemonkeyeyeaboveeye = 0.02
 const distancemonkeyinfrontofeye = 1.8
@@ -31,9 +33,6 @@ func _ready():
 	# "Please be seated comfortably"
 	xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
 	
-	var tween1 = get_tree().create_tween()
-	tween1.tween_method(set_monkey_eyelids, 1.0, 0.0, 2.0).set_trans(Tween.TRANS_SINE)
-
 	if Dautoadvanceloadscreen:
 		await get_tree().create_timer(2.3).timeout
 	else:
@@ -62,9 +61,9 @@ func _ready():
 		var tweenfadeinintro = get_tree().create_tween()
 		tweenfadeinintro.tween_method(set_fade, 1.0, 0.0, 1.0)
 		var tweenfadeintrosound = get_tree().create_tween()
-		$IntroScene/TrafficSound.volume_db = -50
-		$IntroScene/TrafficSound.play()
-		tweenfadeintrosound.tween_property($IntroScene/TrafficSound, "volume_db", 0.0, 3)
+		$IntroScene/MonkeyOrb/TrafficSound.volume_db = -50
+		$IntroScene/MonkeyOrb/TrafficSound.play()
+		tweenfadeintrosound.tween_property($IntroScene/MonkeyOrb/TrafficSound, "volume_db", 0.0, 3)
 		await tweenfadeinintro.finished
 		$IntroScene/MonkeyOrb.enabled = true
 	
@@ -96,16 +95,15 @@ func _ready():
 				
 		# Now fade out the intro scene (while the orb is still rising)
 		var tweenfadeoutsound = get_tree().create_tween()
-		tweenfadeoutsound.tween_property($IntroScene/TrafficSound, "volume_db", -50.0, 2)
+		tweenfadeoutsound.tween_property($IntroScene/MonkeyOrb/TrafficSound, "volume_db", -50.0, 2)
 		var tweenfadeintroscene = get_tree().create_tween()
 		tweenfadeintroscene.tween_method(set_fade, 0.0, 1.0, 3.0)
 		await tweenfadeintroscene.finished
 		xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
 		tweenrisingorb.kill()
-		$IntroScene/TrafficSound.stop()
+		$IntroScene/MonkeyOrb/TrafficSound.stop()
 		$IntroScene.visible = false
 		$IntroScene/MonkeyOrb.enabled = false
-		$IntroScene/TrafficSound.stop()
 
 	# Set the eye height with the monkey's eyes level with your eyes
 	# this also needs to move us into facing the monkey head on if we are 
@@ -128,16 +126,23 @@ func _ready():
 	$PondScene/MonkeyTop/AnimationPlayer.get_animation("Breathe").loop_mode = Animation.LOOP_NONE
 	while $PondScene/BreathMatchAccum.scale.x < 4.5:
 		breathtrackingscore = 0.0
-		$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
+#		$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
+		$PondScene/AnimationTree.set("parameters/BreatheSeek/seek_request", 0)
 		$PondScene/MonkeyBottom/AnimationPlayer.play("Breathe")
-		var BBB = await $PondScene/MonkeyTop/AnimationPlayer.animation_finished
+
+		# Here we want to wait till a breath cycle has finished, 
+		# But we are doing it by time as there is no signal we have found yet
+		#var BBB = await $PondScene/MonkeyTop/AnimationPlayer.animation_finished
+		var BBB = await get_tree().create_timer(8.0).timeout
+
 		print($PondScene/BreathMatchAccum.scale.x, " anim finished ", BBB, "  ", breathtrackingscore)
 		if breathtrackingscore > 5.0:
 			$PondScene/BreathMatchAccum.scale.x += 1
+			var tweenarmsout = get_tree().create_tween()
+			tweenarmsout.tween_method(set_monkey_arms_out, ($PondScene/BreathMatchAccum.scale.x-1)/5, ($PondScene/BreathMatchAccum.scale.x)/5, 1.0)
 
 	# Monkey moves half speed and slowly opens eyes 
-	var tweenmonkeyeyesopen = get_tree().create_tween()
-	tweenmonkeyeyesopen.tween_method(set_monkey_eyelids, 0.0, 1.0, 4.0).set_trans(Tween.TRANS_SINE)
+	$PondScene/AnimationTree.set("parameters/EyesBlend/blend_amount", 1.0)
 	$PondScene/MonkeyTop/AnimationPlayer.speed_scale = 0.5
 	$PondScene/MonkeyBottom/AnimationPlayer.speed_scale = 0.5
 	$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
