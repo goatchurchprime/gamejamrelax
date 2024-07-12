@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=3 uid="uid://35giwndd6jyg"]
+[gd_scene load_steps=98 format=3 uid="uid://35giwndd6jyg"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_h7q6n"]
 [ext_resource type="PackedScene" uid="uid://nqiyqnx42m61" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_fullglove_physics_hand.tscn" id="1_jdw8j"]
@@ -27,6 +27,7 @@
 [ext_resource type="AudioStream" uid="uid://cllsj2x5kwanq" path="res://assets/Audio/happy-pop-2-185287.mp3" id="21_tt50e"]
 [ext_resource type="PackedScene" uid="uid://umn00ymb26vq" path="res://assets/Apartment.glb" id="22_m1vp1"]
 [ext_resource type="PackedScene" uid="uid://bcsm3p1j8408h" path="res://assets/Monkey_Rigged--Animated_01a.glb" id="22_qh1ro"]
+[ext_resource type="AudioStream" uid="uid://dpl1wviwhm8kh" path="res://assets/Audio/electric-shock-97989-trimmed.mp3" id="25_n36k4"]
 [ext_resource type="Shader" path="res://magictinsel.gdshader" id="27_einmm"]
 [ext_resource type="PackedScene" uid="uid://dg0ff1s2laxyh" path="res://assets/Scenery_02.glb" id="28_kja62"]
 [ext_resource type="Material" uid="uid://ecexr6oqai58" path="res://assets/scenewatershader.tres" id="29_k33pa"]
@@ -93,34 +94,34 @@ material = SubResource("ShaderMaterial_ks7yv")
 size = Vector2(0, 0)
 subdivide_depth = 5
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8amrn"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ced2g"]
 animation = &"Grip"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nfq72"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ot3i1"]
 animation = &"Grip"
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_7i504"]
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_e842m"]
 filter_enabled = true
 filters = ["Armature/Skeleton3D:Little_Distal_L", "Armature/Skeleton3D:Little_Intermediate_L", "Armature/Skeleton3D:Little_Metacarpal_L", "Armature/Skeleton3D:Little_Proximal_L", "Armature/Skeleton3D:Middle_Distal_L", "Armature/Skeleton3D:Middle_Intermediate_L", "Armature/Skeleton3D:Middle_Metacarpal_L", "Armature/Skeleton3D:Middle_Proximal_L", "Armature/Skeleton3D:Ring_Distal_L", "Armature/Skeleton3D:Ring_Intermediate_L", "Armature/Skeleton3D:Ring_Metacarpal_L", "Armature/Skeleton3D:Ring_Proximal_L", "Armature/Skeleton3D:Thumb_Distal_L", "Armature/Skeleton3D:Thumb_Metacarpal_L", "Armature/Skeleton3D:Thumb_Proximal_L", "Armature/Skeleton:Little_Distal_L", "Armature/Skeleton:Little_Intermediate_L", "Armature/Skeleton:Little_Proximal_L", "Armature/Skeleton:Middle_Distal_L", "Armature/Skeleton:Middle_Intermediate_L", "Armature/Skeleton:Middle_Proximal_L", "Armature/Skeleton:Ring_Distal_L", "Armature/Skeleton:Ring_Intermediate_L", "Armature/Skeleton:Ring_Proximal_L", "Armature/Skeleton:Thumb_Distal_L", "Armature/Skeleton:Thumb_Proximal_L"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eq2pg"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kgkxq"]
 animation = &"Grip 5"
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_dwfk4"]
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_h5rdn"]
 filter_enabled = true
 filters = ["Armature/Skeleton3D:Index_Distal_L", "Armature/Skeleton3D:Index_Intermediate_L", "Armature/Skeleton3D:Index_Metacarpal_L", "Armature/Skeleton3D:Index_Proximal_L", "Armature/Skeleton:Index_Distal_L", "Armature/Skeleton:Index_Intermediate_L", "Armature/Skeleton:Index_Proximal_L"]
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_a4ey3"]
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_hcoa7"]
 graph_offset = Vector2(-536, 11)
-nodes/ClosedHand1/node = SubResource("AnimationNodeAnimation_8amrn")
+nodes/ClosedHand1/node = SubResource("AnimationNodeAnimation_ced2g")
 nodes/ClosedHand1/position = Vector2(-600, 300)
-nodes/ClosedHand2/node = SubResource("AnimationNodeAnimation_nfq72")
+nodes/ClosedHand2/node = SubResource("AnimationNodeAnimation_ot3i1")
 nodes/ClosedHand2/position = Vector2(-360, 300)
-nodes/Grip/node = SubResource("AnimationNodeBlend2_7i504")
+nodes/Grip/node = SubResource("AnimationNodeBlend2_e842m")
 nodes/Grip/position = Vector2(0, 20)
-nodes/OpenHand/node = SubResource("AnimationNodeAnimation_eq2pg")
+nodes/OpenHand/node = SubResource("AnimationNodeAnimation_kgkxq")
 nodes/OpenHand/position = Vector2(-600, 100)
-nodes/Trigger/node = SubResource("AnimationNodeBlend2_dwfk4")
+nodes/Trigger/node = SubResource("AnimationNodeBlend2_h5rdn")
 nodes/Trigger/position = Vector2(-360, 20)
 node_connections = [&"Grip", 0, &"Trigger", &"Grip", 1, &"ClosedHand2", &"Trigger", 0, &"OpenHand", &"Trigger", 1, &"ClosedHand1", &"output", 0, &"Grip"]
 
@@ -137,34 +138,34 @@ shader_parameter/orbrad = 0.15
 shader_parameter/orbbrightcolour = Color(1, 0.509804, 0, 0.901961)
 shader_parameter/orbdropoff = 0.03
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_safb7"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nof8y"]
 animation = &"Grip"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tl4pm"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2k8h6"]
 animation = &"Grip"
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_2ab1p"]
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_w58ec"]
 filter_enabled = true
 filters = ["Armature/Skeleton3D:Little_Distal_R", "Armature/Skeleton3D:Little_Intermediate_R", "Armature/Skeleton3D:Little_Metacarpal_R", "Armature/Skeleton3D:Little_Proximal_R", "Armature/Skeleton3D:Middle_Distal_R", "Armature/Skeleton3D:Middle_Intermediate_R", "Armature/Skeleton3D:Middle_Metacarpal_R", "Armature/Skeleton3D:Middle_Proximal_R", "Armature/Skeleton3D:Ring_Distal_R", "Armature/Skeleton3D:Ring_Intermediate_R", "Armature/Skeleton3D:Ring_Metacarpal_R", "Armature/Skeleton3D:Ring_Proximal_R", "Armature/Skeleton3D:Thumb_Distal_R", "Armature/Skeleton3D:Thumb_Metacarpal_R", "Armature/Skeleton3D:Thumb_Proximal_R", "Armature/Skeleton:Little_Distal_R", "Armature/Skeleton:Little_Intermediate_R", "Armature/Skeleton:Little_Proximal_R", "Armature/Skeleton:Middle_Distal_R", "Armature/Skeleton:Middle_Intermediate_R", "Armature/Skeleton:Middle_Proximal_R", "Armature/Skeleton:Ring_Distal_R", "Armature/Skeleton:Ring_Intermediate_R", "Armature/Skeleton:Ring_Proximal_R", "Armature/Skeleton:Thumb_Distal_R", "Armature/Skeleton:Thumb_Proximal_R"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ni3kw"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_03ouq"]
 animation = &"Grip 5"
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_icsql"]
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_bn8rn"]
 filter_enabled = true
 filters = ["Armature/Skeleton3D:Index_Distal_R", "Armature/Skeleton3D:Index_Intermediate_R", "Armature/Skeleton3D:Index_Metacarpal_R", "Armature/Skeleton3D:Index_Proximal_R", "Armature/Skeleton:Index_Distal_R", "Armature/Skeleton:Index_Intermediate_R", "Armature/Skeleton:Index_Proximal_R"]
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_pfdbc"]
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_tgicx"]
 graph_offset = Vector2(-552.664, 107.301)
-nodes/ClosedHand1/node = SubResource("AnimationNodeAnimation_safb7")
+nodes/ClosedHand1/node = SubResource("AnimationNodeAnimation_nof8y")
 nodes/ClosedHand1/position = Vector2(-600, 300)
-nodes/ClosedHand2/node = SubResource("AnimationNodeAnimation_tl4pm")
+nodes/ClosedHand2/node = SubResource("AnimationNodeAnimation_2k8h6")
 nodes/ClosedHand2/position = Vector2(-360, 300)
-nodes/Grip/node = SubResource("AnimationNodeBlend2_2ab1p")
+nodes/Grip/node = SubResource("AnimationNodeBlend2_w58ec")
 nodes/Grip/position = Vector2(0, 40)
-nodes/OpenHand/node = SubResource("AnimationNodeAnimation_ni3kw")
+nodes/OpenHand/node = SubResource("AnimationNodeAnimation_03ouq")
 nodes/OpenHand/position = Vector2(-600, 100)
-nodes/Trigger/node = SubResource("AnimationNodeBlend2_icsql")
+nodes/Trigger/node = SubResource("AnimationNodeBlend2_bn8rn")
 nodes/Trigger/position = Vector2(-360, 40)
 node_connections = [&"Grip", 0, &"Trigger", &"Grip", 1, &"ClosedHand2", &"Trigger", 0, &"OpenHand", &"Trigger", 1, &"ClosedHand1", &"output", 0, &"Grip"]
 
@@ -548,7 +549,7 @@ transform = Transform3D(0.699331, 0.713816, 0.0374602, 0.103947, -0.153407, 0.98
 transform = Transform3D(0.340891, 0.939844, 0.0220291, 0.162162, -0.081867, 0.983362, 0.926011, -0.331647, -0.180315, 0.0218786, -0.0547881, -0.107417)
 
 [node name="AnimationTree" parent="XROrigin3D/XRController3DLeft/LeftPhysicsHand" index="1"]
-tree_root = SubResource("AnimationNodeBlendTree_a4ey3")
+tree_root = SubResource("AnimationNodeBlendTree_hcoa7")
 
 [node name="FunctionPickup" parent="XROrigin3D/XRController3DLeft" instance=ExtResource("7_6l8go")]
 
@@ -658,7 +659,7 @@ transform = Transform3D(0.699331, -0.713816, -0.0374602, -0.103947, -0.153407, 0
 transform = Transform3D(0.340891, -0.939844, -0.0220291, -0.162162, -0.081867, 0.983362, -0.926011, -0.331647, -0.180315, -0.0218786, -0.0547881, -0.107417)
 
 [node name="AnimationTree" parent="XROrigin3D/XRController3DRight/RightPhysicsHand" index="1"]
-tree_root = SubResource("AnimationNodeBlendTree_pfdbc")
+tree_root = SubResource("AnimationNodeBlendTree_tgicx")
 
 [node name="FunctionPickup" parent="XROrigin3D/XRController3DRight" instance=ExtResource("7_6l8go")]
 
@@ -755,6 +756,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.887992)
 visible = false
 size = Vector3(1, 1, 0.5)
 
+[node name="TrafficSound" type="AudioStreamPlayer3D" parent="SceneSequence/IntroScene"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0812529, 0.430674, -1.47252)
+stream = ExtResource("17_equb6")
+
 [node name="MonkeyOrb" parent="SceneSequence/IntroScene" instance=ExtResource("14_fsmsi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0812529, 0.903384, -0.663829)
 freeze = true
@@ -771,9 +776,8 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.0140536, -0.10743
 [node name="Pop" type="AudioStreamPlayer3D" parent="SceneSequence/IntroScene/MonkeyOrb"]
 stream = ExtResource("21_tt50e")
 
-[node name="TrafficSound" type="AudioStreamPlayer3D" parent="SceneSequence/IntroScene/MonkeyOrb"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.47271, -0.808694)
-stream = ExtResource("17_equb6")
+[node name="ElectricSizzle" type="AudioStreamPlayer3D" parent="SceneSequence/IntroScene/MonkeyOrb"]
+stream = ExtResource("25_n36k4")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="SceneSequence/IntroScene"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.289145, 1.95595, 0.0921028)
@@ -800,18 +804,18 @@ script = ExtResource("18_6nfk3")
 transform = Transform3D(1.99726, 0, -0.104672, 0, 2, 0, 0.104672, 0, 1.99726, -0.1, -0.231, -1.312)
 
 [node name="Skeleton3D" parent="SceneSequence/PondScene/MonkeyTop/Armature" index="0"]
-bones/1/rotation = Quaternion(-0.809239, 0.0410869, 0.0252156, 0.585498)
-bones/2/rotation = Quaternion(0.185151, -0.0112214, -0.039523, 0.981851)
-bones/3/rotation = Quaternion(0.0473381, -0.00166753, 0.00120844, 0.998877)
-bones/5/rotation = Quaternion(-0.311011, 0.0866133, 0.878742, 0.351543)
-bones/6/rotation = Quaternion(0.759536, -0.286207, 0.29479, 0.504272)
+bones/1/rotation = Quaternion(-0.806924, 0.0409872, 0.0253774, 0.588684)
+bones/2/rotation = Quaternion(0.203132, -0.0118989, -0.040589, 0.978237)
+bones/3/rotation = Quaternion(0.0520531, -0.0012467, -0.00290223, 0.998639)
+bones/5/rotation = Quaternion(-0.31353, 0.0931288, 0.878088, 0.349267)
+bones/6/rotation = Quaternion(0.764893, -0.278622, 0.290802, 0.502736)
 bones/7/rotation = Quaternion(-0.0726434, -0.0679308, 0.232242, 0.96756)
-bones/11/rotation = Quaternion(-0.293023, -0.0750657, -0.86387, 0.402779)
-bones/12/rotation = Quaternion(0.779449, 0.217358, -0.172665, 0.561606)
+bones/11/rotation = Quaternion(-0.302536, -0.0821321, -0.861362, 0.399727)
+bones/12/rotation = Quaternion(0.788501, 0.211053, -0.172419, 0.551358)
 bones/13/rotation = Quaternion(-0.0726434, 0.067931, -0.232242, 0.96756)
 
 [node name="Head_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.999881, -0.0153822, -0.000655947, 0.0149213, 0.97865, -0.204992, 0.00379517, 0.204956, 0.978764, 0.00722519, 0.0159164, -0.0705277)
+transform = Transform3D(0.99999, -0.00437883, -0.000142259, 0.00419468, 0.966277, -0.25747, 0.00126488, 0.257464, 0.966287, 0.00205518, 0.0233871, -0.0880807)
 
 [node name="Head_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D/Head_2" index="0"]
 surface_material_override/0 = ExtResource("10_pb306")
@@ -827,28 +831,28 @@ transform = Transform3D(0.04, 5.82077e-12, -1.86265e-11, -5.82077e-12, 0.04, 2.9
 mesh = SubResource("SphereMesh_4sx7o")
 
 [node name="R_Hand" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.206231, -0.269554, 0.940643, 0.482953, 0.864108, 0.141737, -0.851016, 0.425054, 0.308385, -0.0907656, 0.0751895, -0.332928)
+transform = Transform3D(0.209688, -0.272792, 0.938944, 0.492109, 0.859254, 0.139741, -0.844904, 0.432758, 0.314416, -0.0888431, 0.080409, -0.333026)
 
 [node name="R_LowerArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="2"]
-transform = Transform3D(0.327175, -0.616651, 0.71603, 0.403564, 0.776344, 0.484193, -0.854456, 0.130548, 0.502854, 0.128015, 0.0225837, -0.251383)
+transform = Transform3D(0.330756, -0.618338, 0.712923, 0.41292, 0.77412, 0.479845, -0.848587, 0.135668, 0.511365, 0.129612, 0.0272409, -0.250974)
 
 [node name="R_UpperArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="3"]
-transform = Transform3D(0.561675, -0.507383, -0.653517, 0.680615, 0.732471, 0.0162829, 0.470418, -0.453935, 0.756737, 0.233676, 0.132106, 0.239192)
+transform = Transform3D(0.56369, -0.505586, -0.653175, 0.664787, 0.74703, -0.00452258, 0.490225, -0.431669, 0.757194, 0.233217, 0.125927, 0.235694)
 
 [node name="L_Hand" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="4"]
-transform = Transform3D(0.478579, 0.176604, -0.860101, -0.323367, 0.946173, 0.0143494, 0.816332, 0.27126, 0.509923, 0.125977, 0.0735764, -0.365522)
+transform = Transform3D(0.472487, 0.178026, -0.86317, -0.323556, 0.946045, 0.0180081, 0.819797, 0.270775, 0.504592, 0.127111, 0.0739298, -0.364094)
 
 [node name="L_LowerArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="5"]
-transform = Transform3D(0.578957, 0.461856, -0.671935, -0.2243, 0.882526, 0.413344, 0.783899, -0.0885917, 0.614535, -0.0634308, -0.013826, -0.227137)
+transform = Transform3D(0.573387, 0.465276, -0.674348, -0.224872, 0.880866, 0.416561, 0.78782, -0.0872074, 0.609701, -0.0634299, -0.0126227, -0.226733)
 
 [node name="L_UpperArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="6"]
-transform = Transform3D(0.644367, 0.416896, 0.641084, -0.576081, 0.815968, 0.0484074, -0.50292, -0.400504, 0.765942, -0.164259, 0.142447, 0.258839)
+transform = Transform3D(0.637488, 0.413333, 0.650204, -0.565474, 0.824213, 0.0304644, -0.523311, -0.38709, 0.759149, -0.16181, 0.137904, 0.261182)
 
 [node name="Torso" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="7"]
-transform = Transform3D(0.999993, -0.00379527, 0.000108609, 0.00375835, 0.985366, -0.170413, 0.000539731, 0.17041, 0.985373, 0.0012497, 0.0119572, -0.0528413)
+transform = Transform3D(0.999999, -0.00107437, 5.04833e-05, 0.00106032, 0.976804, -0.214132, 0.000180739, 0.21413, 0.976805, 0.000352934, 0.0168042, -0.0661121)
 
 [node name="Butt_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="8"]
-transform = Transform3D(1, 2.07219e-08, 2.04891e-08, 2.01399e-08, 0.999606, -0.0280505, -4.00469e-08, 0.0280513, 0.999606, 7.45058e-09, 0.00197245, -0.00634255)
+transform = Transform3D(1, 3.37604e-08, 1.02445e-08, 1.88593e-08, 0.999354, -0.0359329, -2.00234e-08, 0.0359335, 0.999354, 7.45058e-09, 0.00255887, -0.00811527)
 
 [node name="Base_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="9"]
 transform = Transform3D(1, 1.11413e-11, 1.13047e-11, 1.09139e-11, 1, 5.81145e-07, -9.71312e-12, 5.81145e-07, 1, 0, 1.49012e-08, -2.6077e-08)
@@ -968,32 +972,32 @@ root_node = NodePath("../MonkeyTop")
 tree_root = SubResource("AnimationNodeBlendTree_bfef2")
 anim_player = NodePath("../MonkeyTop/AnimationPlayer")
 parameters/current_length = 8.0
-parameters/current_position = 1.63284
-parameters/current_delta = 0.0159569
+parameters/current_position = 0.795096
+parameters/current_delta = 0.0240235
 parameters/ArmsOut/current_length = 64.0833
 parameters/ArmsOut/current_position = 0.0
 parameters/ArmsOut/current_delta = 0.0
 parameters/ArmsOutBlend/current_length = 8.0
-parameters/ArmsOutBlend/current_position = 1.63284
-parameters/ArmsOutBlend/current_delta = 0.0159569
+parameters/ArmsOutBlend/current_position = 0.795096
+parameters/ArmsOutBlend/current_delta = 0.0240235
 parameters/ArmsOutBlend/blend_amount = 0.0
 parameters/Breathe1/current_length = 8.0
-parameters/Breathe1/current_position = 1.63284
-parameters/Breathe1/current_delta = 0.0159569
+parameters/Breathe1/current_position = 0.795096
+parameters/Breathe1/current_delta = 0.0240235
 parameters/BreatheSeek/current_length = 8.0
-parameters/BreatheSeek/current_position = 1.63284
-parameters/BreatheSeek/current_delta = 0.0159569
+parameters/BreatheSeek/current_position = 0.795096
+parameters/BreatheSeek/current_delta = 0.0240235
 parameters/BreatheSeek/seek_request = -1.0
 parameters/EyesBlend/current_length = 8.0
-parameters/EyesBlend/current_position = 1.63284
-parameters/EyesBlend/current_delta = 0.0159569
+parameters/EyesBlend/current_position = 0.795096
+parameters/EyesBlend/current_delta = 0.0240235
 parameters/EyesBlend/blend_amount = 0.0
 parameters/EyesOpen/current_length = 63.9583
 parameters/EyesOpen/current_position = 0.0
 parameters/EyesOpen/current_delta = 0.0
 parameters/output/current_length = 8.0
-parameters/output/current_position = 1.63284
-parameters/output/current_delta = 0.0159569
+parameters/output/current_position = 0.795096
+parameters/output/current_delta = 0.0240235
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SceneSequence/PondScene"]
 libraries = {

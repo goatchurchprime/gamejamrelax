@@ -78,9 +78,9 @@ func _ready():
 		var tweenfadeinintro = get_tree().create_tween()
 		tweenfadeinintro.tween_method(set_fade, 1.0, 0.0, 1.0)
 		var tweenfadeintrosound = get_tree().create_tween()
-		$IntroScene/MonkeyOrb/TrafficSound.volume_db = -50
-		$IntroScene/MonkeyOrb/TrafficSound.play()
-		tweenfadeintrosound.tween_property($IntroScene/MonkeyOrb/TrafficSound, "volume_db", 0.0, 3)
+		$IntroScene/TrafficSound.volume_db = -50
+		$IntroScene/TrafficSound.play()
+		tweenfadeintrosound.tween_property($IntroScene/TrafficSound, "volume_db", 0.0, 3)
 		await tweenfadeinintro.finished
 		$IntroScene/MonkeyOrb.enabled = true
 	
@@ -88,6 +88,8 @@ func _ready():
 	var touchingscore = 0.0
 	rightmiddleknuckleemitter.emitting = true
 	leftmiddleknuckleemitter.emitting = true
+	#$IntroScene/MonkeyOrb/ElectricSizzle.play()
+	$IntroScene/MonkeyOrb/ElectricSizzle.stream_paused = true
 	while touchingscore < 1.0 and not Dskiptomonkey and not Input.is_key_pressed(KEY_C):
 		var orbpos = $IntroScene/MonkeyOrb.global_position
 		var orbrad = $IntroScene/MonkeyOrb/Sphere.mesh.radius
@@ -102,11 +104,18 @@ func _ready():
 
 		if (dleftmiddleknucklepos < 0) or (drightmiddleknucklepos < 0):
 			touchingscore = touchingscore*0.8
+			$IntroScene/MonkeyOrb/ElectricSizzle.stream_paused = true
 		elif (dleftmiddleknucklepos < orbdropoff) and (drightmiddleknucklepos < orbdropoff):
 			touchingscore = touchingscore + 0.02
+			if not $IntroScene/MonkeyOrb/ElectricSizzle.playing:
+				$IntroScene/MonkeyOrb/ElectricSizzle.play()
+			$IntroScene/MonkeyOrb/ElectricSizzle.stream_paused = false
+		else:
+			$IntroScene/MonkeyOrb/ElectricSizzle.stream_paused = true
 		await get_tree().create_timer(0.1).timeout
 
 	# The orb now rises to capture your attention and get you to lean back
+	$IntroScene/MonkeyOrb/ElectricSizzle.stop()
 	$IntroScene/MonkeyOrb/Pop.play()
 	rightmiddleknuckleemitter.emitting = false
 	leftmiddleknuckleemitter.emitting = false
@@ -117,13 +126,13 @@ func _ready():
 				
 		# Now fade out the intro scene (while the orb is still rising)
 		var tweenfadeoutsound = get_tree().create_tween()
-		tweenfadeoutsound.tween_property($IntroScene/MonkeyOrb/TrafficSound, "volume_db", -50.0, 2)
+		tweenfadeoutsound.tween_property($IntroScene/TrafficSound, "volume_db", -50.0, 2)
 		var tweenfadeintroscene = get_tree().create_tween()
 		tweenfadeintroscene.tween_method(set_fade, 0.0, 1.0, 3.0)
 		await tweenfadeintroscene.finished
 		xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
 		tweenrisingorb.kill()
-		$IntroScene/MonkeyOrb/TrafficSound.stop()
+		$IntroScene/TrafficSound.stop()
 		$IntroScene.visible = false
 		$IntroScene/MonkeyOrb.enabled = false
 
