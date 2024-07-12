@@ -33,6 +33,9 @@ var pushbackbreathtargetenlargen = 5.0  # need to counteract shrinking by perspe
 @onready var leftmiddleknuckleemitter = leftcontroller.get_node("LeftPhysicsHand/Hand_L/Armature/Skeleton3D/BoneMiddleProximal/GPUParticles")
 @onready var rightmiddleknuckleemitter = rightcontroller.get_node("RightPhysicsHand/Hand_R/Armature/Skeleton3D/BoneMiddleProximal/GPUParticles")
 
+@onready var skyapartment = load("res://assets/skyapartment.tres")
+@onready var skypond = load("res://assets/skypond.tres")
+@onready var skyintro = load("res://assets/skyintro.tres")
 
 func _ready():
 	#
@@ -40,16 +43,17 @@ func _ready():
 	# "Please be seated comfortably"
 	xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
 	
+	$IntroScene.visible = false
+	$PondScene.visible = false
+	$LoadingScreen.visible = true
+	get_node("../WorldEnvironment").environment.sky = skyintro
 	if Dautoadvanceloadscreen:
 		if not Dskiptomonkey:
 			await get_tree().create_timer(2.3).timeout
 	else:
 		await $LoadingScreen.continue_pressed
 	
-	
 	# Fade out the loading screen
-	$IntroScene.visible = false
-	$PondScene.visible = false
 	if not Dskiptomonkey:
 		$LoadingScreen.visible = true
 		var tweenfadeloadscreen = get_tree().create_tween()
@@ -69,6 +73,7 @@ func _ready():
 
 	# Fade in and run the intro scene
 	if not Dskiptomonkey:
+		get_node("../WorldEnvironment").environment.sky = skyapartment
 		$IntroScene.visible = true
 		var tweenfadeinintro = get_tree().create_tween()
 		tweenfadeinintro.tween_method(set_fade, 1.0, 0.0, 1.0)
@@ -134,8 +139,9 @@ func _ready():
 
 	# Now fade in the monkey scene
 	$PondScene.visible = true
+	get_node("../WorldEnvironment").environment.sky = skypond
 	if not Dskiptomonkey:
-		await get_tree().create_timer(2.0).timeout
+		await get_tree().create_timer(0.2).timeout
 		var tweenfadeinpondscene = get_tree().create_tween()
 		tweenfadeinpondscene.tween_method(set_fade, 1.0, 0.0, 4.0).set_trans(Tween.TRANS_SINE)
 		$PondScene/AmbientSound.play()
