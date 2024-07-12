@@ -21,6 +21,7 @@ func set_monkey_arms_out(p_value : float):
 
 @onready var monkeyeyeheightspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot
 @onready var monkeyeyeprojectedspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot/EyeprojectedSpot
+@onready var monkeybreathing = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/Breathing
 
 var Dskiptomonkey = false
 var Dautoadvanceloadscreen = true
@@ -167,6 +168,7 @@ func _ready():
 #		$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
 		$PondScene/AnimationTree.set("parameters/BreatheSeek/seek_request", 0)
 		$PondScene/MonkeyBottom/AnimationPlayer.play("Breathe")
+		monkeybreathing.play(0.2)
 
 		# Here we want to wait till a breath cycle has finished, 
 		# But we are doing it by time as there is no signal we have found yet
