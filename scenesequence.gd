@@ -26,6 +26,8 @@ var Dautoadvanceloadscreen = true
 const distancemonkeyeyeaboveeye = 0.02
 const distancemonkeyinfrontofeye = 1.8
 var monkeyeyetargetradius = 0.04
+var pushbackbreathtargetdistance = 2.0
+var pushbackbreathtargetenlargen = 5.0  # need to counteract shrinking by perspective
 
 func _ready():
 	#
@@ -34,15 +36,17 @@ func _ready():
 	xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
 	
 	if Dautoadvanceloadscreen:
-		await get_tree().create_timer(2.3).timeout
+		if not Dskiptomonkey:
+			await get_tree().create_timer(2.3).timeout
 	else:
 		await $LoadingScreen.continue_pressed
 	
 	
 	# Fade out the loading screen
-	var tweenfadeloadscreen = get_tree().create_tween()
-	tweenfadeloadscreen.tween_method(set_fade, 0.0, 1.0, 1.0)
-	await tweenfadeloadscreen.finished
+	if not Dskiptomonkey:
+		var tweenfadeloadscreen = get_tree().create_tween()
+		tweenfadeloadscreen.tween_method(set_fade, 0.0, 1.0, 1.0)
+		await tweenfadeloadscreen.finished
 	$LoadingScreen.visible = false
 
 	# locate the orb in front of you within arm's reach
@@ -113,13 +117,15 @@ func _ready():
 	xrorigin.position += monkeyeyeheightspot.global_position - monkeytarget
 	monkeyeyeprojectedspot.position.z = distancemonkeyinfrontofeye*0.5
 	monkeyeyeprojectedspot.scale = Vector3(monkeyeyetargetradius,monkeyeyetargetradius,monkeyeyetargetradius)
+	$PondScene/EyeprojectedSpotDeep.scale = monkeyeyeprojectedspot.scale*pushbackbreathtargetenlargen
 
 	# Now fade in the monkey scene
 	$PondScene.visible = true
-	await get_tree().create_timer(2.0).timeout
-	var tweenfadeinpondscene = get_tree().create_tween()
-	tweenfadeinpondscene.tween_method(set_fade, 1.0, 0.0, 4.0).set_trans(Tween.TRANS_SINE)
-	$PondScene/AmbientSound.play()
+	if not Dskiptomonkey:
+		await get_tree().create_timer(2.0).timeout
+		var tweenfadeinpondscene = get_tree().create_tween()
+		tweenfadeinpondscene.tween_method(set_fade, 1.0, 0.0, 4.0).set_trans(Tween.TRANS_SINE)
+		$PondScene/AmbientSound.play()
 	print("Now in pond scene")
 
 	# This bit represents the whole of the mediation sequence (not yet done)
@@ -163,22 +169,25 @@ func _ready():
 
 
 var breathtrackingscore = 0.0
+const eyeraydistfocusfactor = 23
 func _process(delta):
 	var eyerayclos = Geometry3D.get_closest_point_to_segment_uncapped(monkeyeyeprojectedspot.global_position, headcontroller.global_position, headcontroller.global_position + headcontroller.global_transform.basis.z)
 	var eyerayclosvec = monkeyeyeprojectedspot.global_position - eyerayclos
-	var eyeraydist = eyerayclosvec.length()
+	var eyeraydist = eyerayclosvec.length() 
 	if eyeraydist < monkeyeyetargetradius:
 		breathtrackingscore += delta
 	$PondScene/BreathMatch.scale.x = breathtrackingscore
+	var eyeprojectvec = (monkeyeyeprojectedspot.global_position - headcontroller.global_position).normalized()
+	$PondScene/EyeprojectedSpotDeep.global_position = monkeyeyeprojectedspot.global_position + pushbackbreathtargetdistance*eyeprojectvec
 	
 	var nosepoint = xrorigin.get_node("XRCamera3D/NosePointer").global_transform.origin
 	var mat = $PondScene.monkeytopmaterial
 	mat.set_shader_parameter("noselight", monkeyeyeheightspot.global_position)
-	mat.set_shader_parameter("lightsquaredfac", eyeraydist*14)
-	var matrefl = $PondScene.monkeyreflectmaterial
-	nosepoint.y = -xrorigin.transform.origin.y - nosepoint.y
-	
-	matrefl.set_shader_parameter("noselight", monkeyeyeheightspot.global_position)
+	mat.set_shader_parameter("lightsquaredfac", eyeraydist*eyeraydistfocusfactor)
+
+#	var matrefl = $PondScene.monkeyreflectmaterial
+#	nosepoint.y = -xrorigin.transform.origin.y - nosepoint.y
+#	matrefl.set_shader_parameter("noselight", monkeyeyeheightspot.global_position)
 	#matrefl.set_shader_parameter("lightsquaredfac", eyeraydist*0.3)
 
 	#mat.set_shader_parameter("noselight", Vector3(0,0.7,0.3))
