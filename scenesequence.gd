@@ -18,15 +18,16 @@ func set_monkey_eyelids(p_value : float):
 func set_monkey_arms_out(p_value : float):
 	$PondScene/AnimationTree.set("parameters/ArmsOutBlend/blend_amount", p_value)
 
+
 @onready var monkeyeyeheightspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot
 @onready var monkeyeyeprojectedspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot/EyeprojectedSpot
 
 var Dskiptomonkey = false
 var Dautoadvanceloadscreen = true
-const distancemonkeyeyeaboveeye = 0.02
+const distancemonkeyeyeaboveeye = 0.12
 const distancemonkeyinfrontofeye = 1.8
 var monkeyeyetargetradius = 0.04
-var pushbackbreathtargetdistance = 2.0
+var pushbackbreathtargetdistance = 1.3
 var pushbackbreathtargetenlargen = 5.0  # need to counteract shrinking by perspective
 
 @onready var leftmiddleknuckleemitter = leftcontroller.get_node("LeftPhysicsHand/Hand_L/Armature/Skeleton3D/BoneMiddleProximal/GPUParticles")
@@ -47,7 +48,10 @@ func _ready():
 	
 	
 	# Fade out the loading screen
+	$IntroScene.visible = false
+	$PondScene.visible = false
 	if not Dskiptomonkey:
+		$LoadingScreen.visible = true
 		var tweenfadeloadscreen = get_tree().create_tween()
 		tweenfadeloadscreen.tween_method(set_fade, 0.0, 1.0, 1.0)
 		await tweenfadeloadscreen.finished
@@ -136,10 +140,14 @@ func _ready():
 		tweenfadeinpondscene.tween_method(set_fade, 1.0, 0.0, 4.0).set_trans(Tween.TRANS_SINE)
 		$PondScene/AmbientSound.play()
 	print("Now in pond scene")
+	#$PondScene.animatewaterfallcomingin()
 
 	# This bit represents the whole of the mediation sequence (not yet done)
 	$PondScene/MonkeyTop/AnimationPlayer.get_animation("Breathe").loop_mode = Animation.LOOP_NONE
-	while $PondScene/BreathMatchAccum.scale.x < 4.5:
+	var successfulbreaths = 0
+	const breathstowaterfall = 2
+	const breathstofinish = 10
+	while successfulbreaths < breathstofinish:
 		breathtrackingscore = 0.0
 #		$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
 		$PondScene/AnimationTree.set("parameters/BreatheSeek/seek_request", 0)
@@ -153,8 +161,12 @@ func _ready():
 		print($PondScene/BreathMatchAccum.scale.x, " anim finished ", BBB, "  ", breathtrackingscore)
 		if breathtrackingscore > 5.0:
 			$PondScene/BreathMatchAccum.scale.x += 1
+			successfulbreaths += 1
 			var tweenarmsout = get_tree().create_tween()
 			tweenarmsout.tween_method(set_monkey_arms_out, ($PondScene/BreathMatchAccum.scale.x-1)/5, ($PondScene/BreathMatchAccum.scale.x)/5, 1.0)
+
+			if successfulbreaths == breathstowaterfall:
+				$PondScene.animatewaterfallcomingin()
 
 	# Monkey moves half speed and slowly opens eyes 
 	$PondScene/AnimationTree.set("parameters/EyesBlend/blend_amount", 1.0)
@@ -189,14 +201,12 @@ func _process(delta):
 	var eyeprojectvec = (monkeyeyeprojectedspot.global_position - headcontroller.global_position).normalized()
 	$PondScene/EyeprojectedSpotDeep.global_position = monkeyeyeprojectedspot.global_position + pushbackbreathtargetdistance*eyeprojectvec
 	
-	var nosepoint = xrorigin.get_node("XRCamera3D/NosePointer").global_transform.origin
 	var mat = $PondScene.monkeytopmaterial
 	mat.set_shader_parameter("noselight", monkeyeyeheightspot.global_position)
 	mat.set_shader_parameter("lightsquaredfac", eyeraydist*eyeraydistfocusfactor)
 
-#	var matrefl = $PondScene.monkeyreflectmaterial
-#	nosepoint.y = -xrorigin.transform.origin.y - nosepoint.y
-#	matrefl.set_shader_parameter("noselight", monkeyeyeheightspot.global_position)
-	#matrefl.set_shader_parameter("lightsquaredfac", eyeraydist*0.3)
+	var matrefl = $PondScene.monkeyreflectmaterial
+	matrefl.set_shader_parameter("noselight", monkeyeyeheightspot.global_position*Vector3(1,-1,1))
+	matrefl.set_shader_parameter("lightsquaredfac", eyeraydist*eyeraydistfocusfactor)
 
 	#mat.set_shader_parameter("noselight", Vector3(0,0.7,0.3))
