@@ -163,6 +163,10 @@ func _ready():
 	var successfulbreaths = 0
 	const breathstowaterfall = 2
 	const breathstofinish = 10
+	
+	var breathschapterlo = 0
+	var breathschapterhi = breathstowaterfall
+	var prevmonkeyarmsoutfac = 0.0
 	while successfulbreaths < breathstofinish:
 		breathtrackingscore = 0.0
 #		$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
@@ -173,17 +177,20 @@ func _ready():
 		# Here we want to wait till a breath cycle has finished, 
 		# But we are doing it by time as there is no signal we have found yet
 		#var BBB = await $PondScene/MonkeyTop/AnimationPlayer.animation_finished
-		var BBB = await get_tree().create_timer(8.0).timeout
+		var BBB = await get_tree().create_timer(breathtrackingtime).timeout
 
 		print($PondScene/BreathMatchAccum.scale.x, " anim finished ", BBB, "  ", breathtrackingscore)
-		if breathtrackingscore > 5.0:
+		if breathtrackingscore > breathtrackinggoodtime:
 			$PondScene/BreathMatchAccum.scale.x += 1
 			successfulbreaths += 1
-			var tweenarmsout = get_tree().create_tween()
-			tweenarmsout.tween_method(set_monkey_arms_out, ($PondScene/BreathMatchAccum.scale.x-1)/5, ($PondScene/BreathMatchAccum.scale.x)/5, 1.0)
-
 			if successfulbreaths == breathstowaterfall:
 				$PondScene.animatewaterfallcomingin()
+				breathschapterlo = breathstowaterfall
+				breathschapterhi = breathstofinish
+			var tweenarmsout = get_tree().create_tween()
+			var monkeyarmsoutfac = (successfulbreaths - breathschapterlo)/(breathschapterhi - breathschapterlo - 1.0)
+			tweenarmsout.tween_method(set_monkey_arms_out, prevmonkeyarmsoutfac, monkeyarmsoutfac, 0.5)
+			prevmonkeyarmsoutfac = monkeyarmsoutfac
 
 	# Monkey moves half speed and slowly opens eyes 
 	$PondScene/AnimationTree.set("parameters/EyesBlend/blend_amount", 1.0)
@@ -205,18 +212,22 @@ func _ready():
 	# quit and kick you back out of the game!
 	get_tree().quit()
 
-
 var breathtrackingscore = 0.0
+const breathtrackingtime = 8.0
+const breathtrackinggoodtime = 5.0
+
 const eyeraydistfocusfactor = 23
 func _process(delta):
 	var eyerayclos = Geometry3D.get_closest_point_to_segment_uncapped(monkeyeyeprojectedspot.global_position, headcontroller.global_position, headcontroller.global_position + headcontroller.global_transform.basis.z)
 	var eyerayclosvec = monkeyeyeprojectedspot.global_position - eyerayclos
 	var eyeraydist = eyerayclosvec.length() 
-	if eyeraydist < monkeyeyetargetradius:
+	if eyeraydist < monkeyeyetargetradius or Input.is_key_pressed(KEY_C):
 		breathtrackingscore += delta
 	$PondScene/BreathMatch.scale.x = breathtrackingscore
 	var eyeprojectvec = (monkeyeyeprojectedspot.global_position - headcontroller.global_position).normalized()
 	$PondScene/EyeprojectedSpotDeep.global_position = monkeyeyeprojectedspot.global_position + pushbackbreathtargetdistance*eyeprojectvec
+	var breathtrackingprop = clamp(breathtrackingscore/breathtrackinggoodtime, 0.0, 1.0)
+	$PondScene/EyeprojectedSpotDeep/ExpandingSpot.scale = Vector3(breathtrackingprop, breathtrackingprop, breathtrackingprop)
 	
 	var mat = $PondScene.monkeytopmaterial
 	mat.set_shader_parameter("noselight", monkeyeyeheightspot.global_position)
