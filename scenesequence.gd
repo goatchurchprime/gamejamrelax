@@ -79,7 +79,7 @@ func _ready():
 	var touchingscore = 0.0
 	rightmiddleknuckleemitter.emitting = true
 	leftmiddleknuckleemitter.emitting = true
-	while touchingscore < 1.0 and not Dskiptomonkey:
+	while touchingscore < 1.0 and not Dskiptomonkey and not Input.is_key_pressed(KEY_C):
 		var orbpos = $IntroScene/MonkeyOrb.global_position
 		var orbrad = $IntroScene/MonkeyOrb/Sphere.mesh.radius
 		var orbdropoff = 0.04
@@ -94,10 +94,8 @@ func _ready():
 		if (dleftmiddleknucklepos < 0) or (drightmiddleknucklepos < 0):
 			touchingscore = touchingscore*0.8
 		elif (dleftmiddleknucklepos < orbdropoff) and (drightmiddleknucklepos < orbdropoff):
-			touchingscore = touchingscore + 0.04
+			touchingscore = touchingscore + 0.02
 		await get_tree().create_timer(0.1).timeout
-		if Input.is_key_pressed(KEY_C):
-			break
 
 	# The orb now rises to capture your attention and get you to lean back
 	$IntroScene/MonkeyOrb/Pop.play()
