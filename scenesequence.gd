@@ -21,13 +21,17 @@ func set_monkey_arms_out(p_value : float):
 @onready var monkeyeyeheightspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot
 @onready var monkeyeyeprojectedspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot/EyeprojectedSpot
 
-var Dskiptomonkey = true
+var Dskiptomonkey = false
 var Dautoadvanceloadscreen = true
 const distancemonkeyeyeaboveeye = 0.02
 const distancemonkeyinfrontofeye = 1.8
 var monkeyeyetargetradius = 0.04
 var pushbackbreathtargetdistance = 2.0
 var pushbackbreathtargetenlargen = 5.0  # need to counteract shrinking by perspective
+
+@onready var leftmiddleknuckleemitter = leftcontroller.get_node("LeftPhysicsHand/Hand_L/Armature/Skeleton3D/BoneMiddleProximal/GPUParticles")
+@onready var rightmiddleknuckleemitter = rightcontroller.get_node("RightPhysicsHand/Hand_R/Armature/Skeleton3D/BoneMiddleProximal/GPUParticles")
+
 
 func _ready():
 	#
@@ -73,6 +77,8 @@ func _ready():
 	
 	# now we busy-await for the hands to touch the orb for long enough
 	var touchingscore = 0.0
+	rightmiddleknuckleemitter.emitting = true
+	leftmiddleknuckleemitter.emitting = true
 	while touchingscore < 1.0 and not Dskiptomonkey:
 		var orbpos = $IntroScene/MonkeyOrb.global_position
 		var orbrad = $IntroScene/MonkeyOrb/Sphere.mesh.radius
@@ -82,6 +88,9 @@ func _ready():
 		var rightmiddleknucklepos = rightcontroller.get_node("RightPhysicsHand/Hand_R/Armature/Skeleton3D/BoneMiddleProximal").global_position
 		var dleftmiddleknucklepos = (leftmiddleknucklepos - orbpos).length() - orbrad
 		var drightmiddleknucklepos = (rightmiddleknucklepos - orbpos).length() - orbrad
+		rightmiddleknuckleemitter.amount_ratio = 0.0 if drightmiddleknucklepos < 0 else max(0, 1.0 - drightmiddleknucklepos/orbdropoff);
+		leftmiddleknuckleemitter.amount_ratio = 0.0 if dleftmiddleknucklepos < 0 else max(0, 1.0 - dleftmiddleknucklepos/orbdropoff);
+
 		if (dleftmiddleknucklepos < 0) or (drightmiddleknucklepos < 0):
 			touchingscore = touchingscore*0.8
 		elif (dleftmiddleknucklepos < orbdropoff) and (drightmiddleknucklepos < orbdropoff):
@@ -92,6 +101,8 @@ func _ready():
 
 	# The orb now rises to capture your attention and get you to lean back
 	$IntroScene/MonkeyOrb/Pop.play()
+	rightmiddleknuckleemitter.emitting = false
+	leftmiddleknuckleemitter.emitting = false
 	if not Dskiptomonkey:
 		var tweenrisingorb = get_tree().create_tween()
 		tweenrisingorb.tween_property($IntroScene/MonkeyOrb, "position", $IntroScene/MonkeyOrb.position + Vector3(0,0.5,0), 6.0).set_trans(Tween.TRANS_SINE)
