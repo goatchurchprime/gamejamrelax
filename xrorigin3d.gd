@@ -9,7 +9,6 @@ func sethandorbs(lefthandorb, righthandorb, handorbrad, handorbcolour):
 	matright.set_shader_parameter("orbcentrerelativetohand", $XRController3DRight/RightPhysicsHand/Hand_R.global_transform.affine_inverse()*righthandorb)
 	matright.set_shader_parameter("orbcentre", righthandorb)
 
-
 	matleft.set_shader_parameter("orbrad", handorbrad)
 	matright.set_shader_parameter("orbrad", handorbrad)
 	matleft.set_shader_parameter("orbbrightcolour", handorbcolour)

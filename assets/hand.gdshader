@@ -31,8 +31,10 @@ void fragment()
 	ALPHA = albedo.w + basic_fresnel;
 	vec3 vertorbvec =  vertex_pos - orbcentrerelativetohandL;
 	float orbcentredistance = length(vertorbvec);
-	if (orbcentredistance < orbrad)
+	if (orbcentredistance < orbrad) {
 		ALBEDO = albedo_inorb.xyz + basic_fresnel;
+		ALPHA = albedo_inorb.a;
+	}
 	else if (orbcentredistance <= orbrad + orbdropoff) {
 		float activefadeval = (orbcentredistance - orbrad)/orbdropoff;
 		activefadeval *= activefadeval;

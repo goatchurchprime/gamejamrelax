@@ -138,11 +138,15 @@ func _ready():
 		var tweenfadeintroscene = get_tree().create_tween()
 		tweenfadeintroscene.tween_method(set_fade, 0.0, 1.0, 3.0)
 		await tweenfadeintroscene.finished
-		xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
 		tweenrisingorb.kill()
 		$IntroScene/TrafficSound.stop()
 		$IntroScene.visible = false
 		$IntroScene/MonkeyOrb.enabled = false
+
+	# set the hands the same colour as in the orb (so they are not distracting)
+	xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
+	rightcontroller.get_node("RightPhysicsHand").hand_material_override.set_shader_parameter("orbrad", 100.0)
+	leftcontroller.get_node("LeftPhysicsHand").hand_material_override.set_shader_parameter("orbrad", 100.0)
 
 	# Set the eye height with the monkey's eyes level with your eyes
 	# this also needs to move us into facing the monkey head on if we are 
