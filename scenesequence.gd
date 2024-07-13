@@ -223,6 +223,7 @@ func _ready():
 				$PondScene/SnowParticles.amount_ratio = 1.0
 			if successfulbreaths == breathstosnowstormrepelling:
 				$PondScene/GPUParticlesAttractorSphere3D.strength = -1.0
+				$PondScene/SnowParticles.amount_ratio = 0.5
 			if successfulbreaths == breathstosnowstormclear:
 				$PondScene/SnowParticles.emitting = false
 
@@ -235,6 +236,8 @@ func _ready():
 	$PondScene/AnimationTree.set("parameters/EyesBlend/blend_amount", 1.0)
 	$PondScene/MonkeyTop/AnimationPlayer.speed_scale = 0.5
 	$PondScene/MonkeyBottom/AnimationPlayer.speed_scale = 0.5
+	$PondScene/EyeprojectedSpotDeep.visible = false
+	headcontroller.get_node("NosePointer").visible = false
 	$PondScene/MonkeyTop/AnimationPlayer.play("Breathe")
 	$PondScene/MonkeyBottom/AnimationPlayer.play("Breathe")
 	await get_tree().create_timer(4.5).timeout
