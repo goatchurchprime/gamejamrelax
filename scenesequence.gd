@@ -48,6 +48,7 @@ func _ready():
 	$PondScene.visible = false
 	$LoadingScreen.visible = true
 	get_node("../WorldEnvironment").environment.sky = skyintro
+	$LoadingScreen.set_camera(headcontroller)
 	if Dautoadvanceloadscreen:
 		if not Dskiptomonkey:
 			for i in range(11):

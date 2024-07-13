@@ -838,18 +838,18 @@ script = ExtResource("18_6nfk3")
 transform = Transform3D(1.99726, 0, -0.104672, 0, 2, 0, 0.104672, 0, 1.99726, -0.1, -0.231, -1.312)
 
 [node name="Skeleton3D" parent="SceneSequence/PondScene/MonkeyTop/Armature" index="0"]
-bones/1/rotation = Quaternion(-0.808152, 0.0410401, 0.0252917, 0.586998)
-bones/2/rotation = Quaternion(0.193593, -0.0115397, -0.0400247, 0.980197)
-bones/3/rotation = Quaternion(0.049556, -0.0014696, -0.000724985, 0.99877)
-bones/5/rotation = Quaternion(-0.312194, 0.0896707, 0.878441, 0.350478)
-bones/6/rotation = Quaternion(0.762057, -0.282654, 0.292924, 0.503558)
+bones/1/rotation = Quaternion(-0.810321, 0.0411335, 0.0251395, 0.584)
+bones/2/rotation = Quaternion(0.176748, -0.0109043, -0.0390216, 0.983422)
+bones/3/rotation = Quaternion(0.0451377, -0.00186384, 0.0031263, 0.998974)
+bones/5/rotation = Quaternion(-0.30983, 0.0835725, 0.879031, 0.352598)
+bones/6/rotation = Quaternion(0.757011, -0.289734, 0.296639, 0.50497)
 bones/7/rotation = Quaternion(-0.0726434, -0.0679308, 0.232242, 0.96756)
-bones/11/rotation = Quaternion(-0.297491, -0.0783814, -0.862711, 0.401355)
-bones/12/rotation = Quaternion(0.783713, 0.214409, -0.172555, 0.556818)
+bones/11/rotation = Quaternion(-0.288575, -0.0717689, -0.864993, 0.404179)
+bones/12/rotation = Quaternion(0.775174, 0.220278, -0.172767, 0.566335)
 bones/13/rotation = Quaternion(-0.0726434, 0.067931, -0.232242, 0.96756)
 
 [node name="Head_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.999948, -0.0102101, -0.000385681, 0.00984868, 0.973209, -0.229712, 0.00272074, 0.229693, 0.973259, 0.00479289, 0.0192855, -0.0788233)
+transform = Transform3D(0.999789, -0.0205142, -0.00097383, 0.0200028, 0.98341, -0.180294, 0.00465627, 0.180235, 0.983613, 0.00964132, 0.012814, -0.0621972)
 
 [node name="Head_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D/Head_2" index="0"]
 surface_material_override/0 = ExtResource("10_pb306")
@@ -871,28 +871,28 @@ volume_db = -14.37
 pitch_scale = 0.7
 
 [node name="R_Hand" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.207847, -0.271083, 0.939848, 0.48727, 0.861831, 0.14082, -0.848156, 0.428688, 0.311218, -0.0898616, 0.0776562, -0.332988)
+transform = Transform3D(0.20463, -0.268014, 0.941433, 0.478638, 0.866363, 0.142606, -0.853835, 0.421422, 0.305563, -0.0916694, 0.072712, -0.332846)
 
 [node name="R_LowerArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="2"]
-transform = Transform3D(0.328851, -0.617453, 0.71457, 0.407977, 0.775295, 0.48217, -0.851712, 0.132966, 0.506859, 0.128767, 0.02479, -0.251206)
+transform = Transform3D(0.325513, -0.615834, 0.717489, 0.399151, 0.777393, 0.486163, -0.857159, 0.128134, 0.498859, 0.127259, 0.0203574, -0.251538)
 
 [node name="R_UpperArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="3"]
-transform = Transform3D(0.562621, -0.506542, -0.653355, 0.67326, 0.739388, 0.00651957, 0.479777, -0.443541, 0.757024, 0.233462, 0.1292, 0.237576)
+transform = Transform3D(0.560733, -0.508215, -0.653679, 0.687798, 0.725448, 0.0259862, 0.461001, -0.464166, 0.756325, 0.233889, 0.135004, 0.240754)
 
 [node name="L_Hand" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="4"]
-transform = Transform3D(0.475703, 0.177316, -0.861549, -0.323501, 0.946099, 0.0160965, 0.817957, 0.271054, 0.50742, 0.126497, 0.0737663, -0.364859)
+transform = Transform3D(0.48148, 0.175821, -0.858641, -0.323167, 0.946267, 0.0125491, 0.814703, 0.271441, 0.512424, 0.125477, 0.0733518, -0.36617)
 
 [node name="L_LowerArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="5"]
-transform = Transform3D(0.576332, 0.463507, -0.673055, -0.224618, 0.881727, 0.414872, 0.785741, -0.0879221, 0.612275, -0.0634487, -0.0132314, -0.226957)
+transform = Transform3D(0.581599, 0.460134, -0.670835, -0.22391, 0.883356, 0.411779, 0.782053, -0.0892819, 0.616784, -0.0633834, -0.014466, -0.227301)
 
 [node name="L_UpperArm" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="6"]
-transform = Transform3D(0.641133, 0.415259, 0.645375, -0.571201, 0.819848, 0.0399256, -0.512527, -0.394232, 0.762822, -0.163125, 0.140352, 0.259954)
+transform = Transform3D(0.647592, 0.418465, 0.636798, -0.580758, 0.812092, 0.0569444, -0.493306, -0.406698, 0.768925, -0.16536, 0.144464, 0.257704)
 
 [node name="Torso" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="7"]
-transform = Transform3D(0.999997, -0.00251874, 9.37558e-05, 0.00249035, 0.981592, -0.190977, 0.00038899, 0.190975, 0.981594, 0.000828445, 0.0141543, -0.0590945)
+transform = Transform3D(0.999987, -0.00506378, 0.000101602, 0.0050219, 0.98869, -0.14989, 0.000658564, 0.149887, 0.988703, 0.00166922, 0.00990915, -0.0465817)
 
 [node name="Butt_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="8"]
-transform = Transform3D(1, 1.83936e-08, 1.21072e-08, 1.66474e-08, 0.999495, -0.0317581, -1.44355e-08, 0.0317588, 0.999496, 1.11759e-08, 0.00224651, -0.00717689)
+transform = Transform3D(1, 1.90921e-08, 1.86265e-08, 1.68802e-08, 0.999703, -0.0243507, -1.95578e-08, 0.0243514, 0.999703, 1.11759e-08, 0.00170206, -0.00550902)
 
 [node name="Base_2" parent="SceneSequence/PondScene/MonkeyTop/Armature/Skeleton3D" index="9"]
 transform = Transform3D(1, 1.11413e-11, 1.13047e-11, 1.09139e-11, 1, 5.81145e-07, -9.71312e-12, 5.81145e-07, 1, 0, 1.49012e-08, -2.6077e-08)
@@ -1008,32 +1008,32 @@ root_node = NodePath("../MonkeyTop")
 tree_root = SubResource("AnimationNodeBlendTree_bfef2")
 anim_player = NodePath("../MonkeyTop/AnimationPlayer")
 parameters/current_length = 8.0
-parameters/current_position = 6.72052
-parameters/current_delta = 0.0368267
+parameters/current_position = 1.96096
+parameters/current_delta = 0.0166667
 parameters/ArmsOut/current_length = 64.0833
 parameters/ArmsOut/current_position = 0.0
 parameters/ArmsOut/current_delta = 0.0
 parameters/ArmsOutBlend/current_length = 8.0
-parameters/ArmsOutBlend/current_position = 6.72052
-parameters/ArmsOutBlend/current_delta = 0.0368267
+parameters/ArmsOutBlend/current_position = 1.96096
+parameters/ArmsOutBlend/current_delta = 0.0166667
 parameters/ArmsOutBlend/blend_amount = 0.0
 parameters/Breathe1/current_length = 8.0
-parameters/Breathe1/current_position = 6.72052
-parameters/Breathe1/current_delta = 0.0368267
+parameters/Breathe1/current_position = 1.96096
+parameters/Breathe1/current_delta = 0.0166667
 parameters/BreatheSeek/current_length = 8.0
-parameters/BreatheSeek/current_position = 6.72052
-parameters/BreatheSeek/current_delta = 0.0368267
+parameters/BreatheSeek/current_position = 1.96096
+parameters/BreatheSeek/current_delta = 0.0166667
 parameters/BreatheSeek/seek_request = -1.0
 parameters/EyesBlend/current_length = 8.0
-parameters/EyesBlend/current_position = 6.72052
-parameters/EyesBlend/current_delta = 0.0368267
+parameters/EyesBlend/current_position = 1.96096
+parameters/EyesBlend/current_delta = 0.0166667
 parameters/EyesBlend/blend_amount = 0.0
 parameters/EyesOpen/current_length = 63.9583
 parameters/EyesOpen/current_position = 0.0
 parameters/EyesOpen/current_delta = 0.0
 parameters/output/current_length = 8.0
-parameters/output/current_position = 6.72052
-parameters/output/current_delta = 0.0368267
+parameters/output/current_position = 1.96096
+parameters/output/current_delta = 0.0166667
 
 [node name="OmniLight3D" type="OmniLight3D" parent="SceneSequence/PondScene"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5975, 1.95595, 0.0921028)
