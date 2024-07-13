@@ -23,7 +23,7 @@ func set_monkey_arms_out(p_value : float):
 @onready var monkeyeyeprojectedspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot/EyeprojectedSpot
 @onready var monkeybreathing = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/Breathing
 
-var Dskiptomonkey = true
+var Dskiptomonkey = false
 var Dautoadvanceloadscreen = true
 const distancemonkeyeyeaboveeye = 0.12
 const distancemonkeyinfrontofeye = 1.8
@@ -50,7 +50,9 @@ func _ready():
 	get_node("../WorldEnvironment").environment.sky = skyintro
 	if Dautoadvanceloadscreen:
 		if not Dskiptomonkey:
-			await get_tree().create_timer(2.3).timeout
+			for i in range(11):
+				await get_tree().create_timer(0.5).timeout
+				$LoadingScreen.progress = i/10.0
 	else:
 		await $LoadingScreen.continue_pressed
 	
@@ -165,6 +167,7 @@ func _ready():
 	var successfulbreaths = 0
 	const breathstokoi = 2
 	const breathstowaterfall = 4
+	const breathstosnowstorm = 6
 	const breathstofinish = 10
 	
 	var breathschapterlo = 0
@@ -194,6 +197,11 @@ func _ready():
 
 			if successfulbreaths == breathstowaterfall:
 				$PondScene.animatewaterfallcomingin()
+				breathschapterlo = successfulbreaths
+				breathschapterhi = breathstosnowstorm
+
+			if successfulbreaths == breathstosnowstorm:
+				$PondScene/SnowParticles.emitting = true
 				breathschapterlo = successfulbreaths
 				breathschapterhi = breathstofinish
 
