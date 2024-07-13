@@ -147,6 +147,7 @@ func _ready():
 	xrorigin.sethandorbs(Vector3(), Vector3(), 0.0, Color(Color.BLACK, 0.0))
 	rightcontroller.get_node("RightPhysicsHand").hand_material_override.set_shader_parameter("orbrad", 100.0)
 	leftcontroller.get_node("LeftPhysicsHand").hand_material_override.set_shader_parameter("orbrad", 100.0)
+	headcontroller.get_node("NosePointer").visible = true
 
 	# Set the eye height with the monkey's eyes level with your eyes
 	# this also needs to move us into facing the monkey head on if we are 
