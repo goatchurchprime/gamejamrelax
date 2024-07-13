@@ -23,7 +23,7 @@ func set_monkey_arms_out(p_value : float):
 @onready var monkeyeyeprojectedspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot/EyeprojectedSpot
 @onready var monkeybreathing = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/Breathing
 
-var Dskiptomonkey = true
+var Dskiptomonkey = false
 var Dautoadvanceloadscreen = true
 const distancemonkeyeyeaboveeye = 0.12
 const distancemonkeyinfrontofeye = 1.8
@@ -158,12 +158,13 @@ func _ready():
 	print("Now in pond scene")
 
 	#$PondScene.animatewaterfallcomingin()
-	$PondScene/KoiLips.triggerkoi() 
+	#$PondScene/KoiLips.triggerkoi() 
 	
 	# This bit represents the whole of the mediation sequence (not yet done)
 	$PondScene/MonkeyTop/AnimationPlayer.get_animation("Breathe").loop_mode = Animation.LOOP_NONE
 	var successfulbreaths = 0
-	const breathstowaterfall = 2
+	const breathstokoi = 2
+	const breathstowaterfall = 4
 	const breathstofinish = 10
 	
 	var breathschapterlo = 0
@@ -185,10 +186,17 @@ func _ready():
 		if breathtrackingscore > breathtrackinggoodtime:
 			$PondScene/BreathMatchAccum.scale.x += 1
 			successfulbreaths += 1
+
+			if successfulbreaths == breathstokoi:
+				$PondScene/KoiLips.triggerkoi() 
+				breathschapterlo = successfulbreaths
+				breathschapterhi = breathstowaterfall
+
 			if successfulbreaths == breathstowaterfall:
 				$PondScene.animatewaterfallcomingin()
-				breathschapterlo = breathstowaterfall
+				breathschapterlo = successfulbreaths
 				breathschapterhi = breathstofinish
+
 			var tweenarmsout = get_tree().create_tween()
 			var monkeyarmsoutfac = (successfulbreaths - breathschapterlo)/(breathschapterhi - breathschapterlo - 1.0)
 			tweenarmsout.tween_method(set_monkey_arms_out, prevmonkeyarmsoutfac, monkeyarmsoutfac, 0.5)
