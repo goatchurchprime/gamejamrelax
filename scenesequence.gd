@@ -175,13 +175,13 @@ func _ready():
 	# This bit represents the whole of the mediation sequence (not yet done)
 	$PondScene/MonkeyTop/AnimationPlayer.get_animation("Breathe").loop_mode = Animation.LOOP_NONE
 	var successfulbreaths = 0
-	const breathstokoi = 2
-	const breathstowaterfall = 4
-	const breathstosnowstorm = 6
-	const breathstosnowstormdouble = 8
-	const breathstosnowstormrepelling = 10
-	const breathstosnowstormclear = 12
-	const breathstofinish = 14
+	const breathstokoi = 4         # 32secs
+	const breathstowaterfall = 12  # 1m36
+	const breathstosnowstorm = 20  # 2m40
+	const breathstosnowstormdouble = 24 # 3m12
+	const breathstosnowstormrepelling = 30 # 4m
+	const breathstosnowstormclear = 36 # 4m48
+	const breathstofinish = 40  # 5m20
 	
 	var breathschapterlo = 0
 	var breathschapterhi = breathstowaterfall
