@@ -178,7 +178,10 @@ func _ready():
 	const breathstokoi = 2
 	const breathstowaterfall = 4
 	const breathstosnowstorm = 6
-	const breathstofinish = 10
+	const breathstosnowstormdouble = 8
+	const breathstosnowstormrepelling = 10
+	const breathstosnowstormclear = 12
+	const breathstofinish = 14
 	
 	var breathschapterlo = 0
 	var breathschapterhi = breathstowaterfall
@@ -212,8 +215,16 @@ func _ready():
 
 			if successfulbreaths == breathstosnowstorm:
 				$PondScene/SnowParticles.emitting = true
+				#$PondScene/SnowParticles.amount_ratio = 0.2
 				breathschapterlo = successfulbreaths
 				breathschapterhi = breathstofinish
+
+			if successfulbreaths == breathstosnowstormdouble:
+				$PondScene/SnowParticles.amount_ratio = 1.0
+			if successfulbreaths == breathstosnowstormrepelling:
+				$PondScene/GPUParticlesAttractorSphere3D.strength = -1.0
+			if successfulbreaths == breathstosnowstormclear:
+				$PondScene/SnowParticles.emitting = false
 
 			var tweenarmsout = get_tree().create_tween()
 			var monkeyarmsoutfac = (successfulbreaths - breathschapterlo)/(breathschapterhi - breathschapterlo - 1.0)
