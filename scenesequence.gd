@@ -23,7 +23,7 @@ func set_monkey_arms_out(p_value : float):
 @onready var monkeyeyeprojectedspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot/EyeprojectedSpot
 @onready var monkeybreathing = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/Breathing
 
-var Dskiptomonkey = false
+var Dskiptomonkey = true
 var Dautoadvanceloadscreen = true
 const distancemonkeyeyeaboveeye = 0.12
 const distancemonkeyinfrontofeye = 1.8
@@ -154,10 +154,12 @@ func _ready():
 		await get_tree().create_timer(0.2).timeout
 		var tweenfadeinpondscene = get_tree().create_tween()
 		tweenfadeinpondscene.tween_method(set_fade, 1.0, 0.0, 4.0).set_trans(Tween.TRANS_SINE)
-		$PondScene/AmbientSound.play()
+	$PondScene/AmbientSound.play()
 	print("Now in pond scene")
-	#$PondScene.animatewaterfallcomingin()
 
+	#$PondScene.animatewaterfallcomingin()
+	$PondScene/KoiLips.triggerkoi() 
+	
 	# This bit represents the whole of the mediation sequence (not yet done)
 	$PondScene/MonkeyTop/AnimationPlayer.get_animation("Breathe").loop_mode = Animation.LOOP_NONE
 	var successfulbreaths = 0
