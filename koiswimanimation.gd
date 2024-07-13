@@ -17,4 +17,9 @@ func _process(delta):
 
 func triggerkoi():
 	set_process(true)
+	visible = true
 	$AnimationPlayer.play("koiswim")
+	await $AnimationPlayer.animation_finished
+	set_process(false)
+	visible = false
+	

@@ -23,7 +23,7 @@ func set_monkey_arms_out(p_value : float):
 @onready var monkeyeyeprojectedspot = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/EyeheightSpot/EyeprojectedSpot
 @onready var monkeybreathing = $PondScene/MonkeyTop/Armature/Skeleton3D/Head_2/Breathing
 
-var Dskiptomonkey = false
+var Dskiptomonkey = true
 var Dautoadvanceloadscreen = true
 const distancemonkeyeyeaboveeye = 0.12
 const distancemonkeyinfrontofeye = 1.8
