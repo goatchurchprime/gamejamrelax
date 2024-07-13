@@ -97,7 +97,6 @@ func _ready():
 		var orbpos = $IntroScene/MonkeyOrb.global_position
 		var orbrad = $IntroScene/MonkeyOrb/Sphere.mesh.radius
 		var orbdropoff = 0.04
-		xrorigin.sethandorbs(orbpos, orbpos, orbrad, lerp(Color.YELLOW, Color.ORANGE_RED, touchingscore))
 		var leftmiddleknucklepos = leftcontroller.get_node("LeftPhysicsHand/Hand_L/Armature/Skeleton3D/BoneMiddleProximal").global_position
 		var rightmiddleknucklepos = rightcontroller.get_node("RightPhysicsHand/Hand_R/Armature/Skeleton3D/BoneMiddleProximal").global_position
 		var dleftmiddleknucklepos = (leftmiddleknucklepos - orbpos).length() - orbrad
@@ -114,7 +113,13 @@ func _ready():
 				$IntroScene/MonkeyOrb/ElectricSizzle.play()
 			$IntroScene/MonkeyOrb/ElectricSizzle.stream_paused = false
 		else:
+			touchingscore = touchingscore*0.9
 			$IntroScene/MonkeyOrb/ElectricSizzle.stream_paused = true
+
+		var handorbcolour = lerp(Color.YELLOW, Color.ORANGE_RED, touchingscore)
+		if fmod(touchingscore*8, 1.0) > 0.8:
+			handorbcolour = Color.WHITE
+		xrorigin.sethandorbs(orbpos, orbpos, orbrad, handorbcolour)
 		await get_tree().create_timer(0.1).timeout
 
 	# The orb now rises to capture your attention and get you to lean back
