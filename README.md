@@ -1,6 +1,9 @@
 # gamejamrelax
 
-Entry for https://itch.io/jam/godot-xr-game-jam-july-2024
+Entry for: https://itch.io/jam/godot-xr-game-jam-july-2024
+
+To be found at: https://itch.io/jam/godot-xr-game-jam-july-2024/rate/2828949
+
 
 ## Build from repo instructions
 
